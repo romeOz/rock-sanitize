@@ -1,0 +1,9 @@
+- name: Create index.php
+  copy: src=index.php dest=/var/www/ owner=vagrant mode=0644
+  tags:
+    - demo
+
+- name: Copy assets
+  copy: src=assets dest=/var/www/ owner=vagrant mode=0644
+  tags:
+    - demo

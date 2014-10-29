@@ -1,0 +1,13 @@
+- name: ensure NTP is installed
+  apt: pkg=ntp state=installed
+  tags: ntp
+
+- name: set NTP configuration
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+  tags: ntp
+
+- name: ensure ntpd is running and enabled
+  service: name=ntp state=running enabled=yes
+  tags: ntp

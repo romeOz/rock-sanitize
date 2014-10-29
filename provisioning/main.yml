@@ -1,0 +1,11 @@
+---
+- hosts: vagrant
+  sudo: true
+
+  roles:
+    - initial
+    - common
+    - nginx
+    - php
+    - composer
+    - demo

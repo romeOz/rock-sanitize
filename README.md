@@ -87,6 +87,37 @@ Documentation
  * [Rules](https://github.com/romeOz/rock-sanitize/blob/master/docs/rules.md)
  * [Custom rules](https://github.com/romeOz/rock-sanitize/blob/master/docs/custom-rules.md)
 
+Demo & Tests
+-------------------
+
+Use a specially prepared environment (Vagrant + Ansible).
+
+###Out of the box:
+
+ * Ubuntu 14.04 64 bit
+
+> If you need to use 32 bit of Ubuntu, then uncomment `config.vm.box_url` the appropriate version in the file `/path/to/Vagrantfile`.
+
+ * Nginx 1.6
+ * PHP-FPM 5.6
+ * Composer
+ * Local IP loop on Host machine /etc/hosts and Virtual hosts in Nginx already set up!
+
+###Installation:
+
+1. [Install Composer](https://getcomposer.org/doc/00-intro.md#globally)
+2. ```composer create-project --prefer-dist romeoz/rock-sanitize```
+3. [Install Vagrant](https://www.vagrantup.com/downloads), and additional Vagrant plugins ```vagrant plugin install vagrant-hostsupdater vagrant-vbguest vagrant-cachier```
+4. ```vagrant up```
+5. Open demo [http://rock.sanitize/](http://rock.sanitize/) or [http://192.168.33.36/](http://192.168.33.36/)
+
+> Work/editing the project can be done via ssh:
+```bash
+vagrant ssh
+cd /var/www/
+```
+
+
 Requirements
 -------------------
 

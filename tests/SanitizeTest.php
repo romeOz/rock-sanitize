@@ -3,7 +3,25 @@
 namespace rockunit\sanitize;
 
 
+use rock\sanitize\rules\Rule;
 use rock\sanitize\Sanitize;
+
+class Round extends Rule
+{
+    protected $precision = 0;
+    public function __construct($precision = 0)
+    {
+        $this->precision= $precision;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function sanitize($input)
+    {
+        return round($input, $this->precision);
+    }
+}
 
 class SanitizeTest extends \PHPUnit_Framework_TestCase
 {
@@ -237,5 +255,16 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
     public function testUnknownRule()
     {
         Sanitize::unknown()->sanitize('');
+    }
+
+    public function testCustomRule()
+    {
+        $config = [
+            'rules' => [
+                'round' => Round::className()
+            ]
+        ];
+        $s = new Sanitize($config);
+        $this->assertSame(7.0, $s->round()->sanitize(7.4));
     }
 } 

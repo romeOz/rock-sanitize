@@ -279,7 +279,7 @@ s::rtrimWords(['foo', 'bar'])->sanitize('text bar');
 
 #### s::specialChars()
 
-Removes special chars (`«`, `»`, `.`, `,`,... [see](http://en.wikipedia.org/wiki/Special_characters)).
+Removes special chars (`«`, `»`, `.`, `,`,...). [See](http://en.wikipedia.org/wiki/Special_characters)
 
 ```php
 s::specialChars()->sanitize('«Hello world!»');

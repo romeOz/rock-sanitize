@@ -9,6 +9,12 @@ Sanitizator for PHP
 
 [Rock sanitizator on Packagist](https://packagist.org/packages/romeOz/rock-sanitize)
 
+Features
+-------------------
+
+ * Sanitization of scalar variable and array (`attributes()`, `allOf()`)
+ * Customization of sanitization rules
+ 
 Installation
 -------------------
 
@@ -25,6 +31,59 @@ In your composer.json:
     }
 }
 ```
+
+Quick Start
+-------------------
+
+```php
+use rock\sanitize\Sanitize;
+
+Sanitize::removeTags()
+    ->lowercase()
+    ->sanitize('<b>Hello World!</b>');
+// output: hello world!    
+```
+
+####Attributes (Array or Object)
+```php
+use rock\sanitize\Sanitize;
+
+$input = [
+    'name' => '<b>Tom</b>',
+    'email' => '<i>(tom@site.com)</i>'
+];
+
+$attributes = [
+    'name' => Sanitize::removeTags(),
+    'email' => Sanitize::removeTags()->email()
+];
+        
+Sanitize::attributes($attributes)->sanitize($input);
+/*
+output:
+
+[
+  'name' => 'Tom',
+  'email' => 'tom@site.com',
+]
+*/
+
+// all attributes:
+Sanitize::allOf(Sanitize::removeTags())->sanitize($input);
+/*
+output:
+
+[
+  'name' => 'Tom',
+  'email' => '(tom@site.com)',
+]
+*/
+```
+
+Documentation
+-------------------
+
+**TODO**
 
 Requirements
 -------------------

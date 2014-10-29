@@ -161,6 +161,76 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, (array)$sanitize->sanitize($input));
     }
 
+    public function testNested()
+    {
+        $input = [
+            'name' => '<b>Tom</b>',
+            'other' => [
+                'email' => '<b>tom@site.com</b>'
+            ]
+        ];
+
+        $expected = [
+            'name' => 'Tom',
+            'other' =>
+                [
+                    'email' => 'tom@site.com',
+                ],
+        ];
+        $sanitize = Sanitize::removeTags();
+        $this->assertSame($expected, Sanitize::allOf($sanitize)->sanitize($input));
+
+        $input = [
+            [
+                'name' => '<b>Tom</b>',
+                'other' => [
+                    'email' => '<b>tom@site.com</b>'
+                ]
+            ],
+            [
+                'name' => '<i>Jerry</i>',
+                'other' => [
+                    'email' => '<b>jerry@site.com</b>'
+                ]
+            ]
+        ];
+
+        $sanitize = Sanitize::removeTags();
+        $expected = [
+                [
+                    'name' => 'Tom',
+                    'other' =>
+                        [
+                            'email' => 'tom@site.com',
+                        ],
+                ],
+
+                [
+                    'name' => 'Jerry',
+                    'other' =>
+                        [
+                            'email' => 'jerry@site.com',
+                        ],
+                ],
+        ];
+        $this->assertSame($expected, Sanitize::allOf($sanitize)->sanitize($input));
+        $input = [
+            'name' => '<b>Tom</b>',
+            'other' => [
+                'email' => '<b>tom@site.com</b>'
+            ]
+        ];
+
+        $expected = [
+            'name' => 'Tom',
+            'other' =>
+                [
+                    'email' => '<b>tom@site.com</b>',
+                ],
+        ];
+        $this->assertSame($expected, Sanitize::allOf($sanitize->nested(false))->sanitize($input));
+    }
+
     /**
      * @expectedException \rock\sanitize\Exception
      */

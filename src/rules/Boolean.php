@@ -12,4 +12,4 @@ class Boolean extends Rule
     {
         return (bool)$input;
     }
-} 
+}

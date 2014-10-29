@@ -4,7 +4,7 @@ namespace rock\sanitize\rules;
 
 class BasicTags extends Rule
 {
-    protected $allowedTags	= "<br><p><a><strong><b><i><em><img><blockquote><code><dd><dl><hr><h1><h2><h3><h4><h5><h6><label><ul><li><span><sub><sup>";
+    protected $allowedTags = "<br><p><a><strong><b><i><em><img><blockquote><code><dd><dl><hr><h1><h2><h3><h4><h5><h6><label><ul><li><span><sub><sup>";
 
     public function __construct($allowedTags = null, $config = [])
     {

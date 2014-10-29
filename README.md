@@ -44,7 +44,8 @@ Sanitize::removeTags()
 // output: hello world!    
 ```
 
-####Attributes (Array or Object)
+####For Array or Object
+
 ```php
 use rock\sanitize\Sanitize;
 
@@ -83,7 +84,8 @@ output:
 Documentation
 -------------------
 
-**TODO**
+ * [Rules](https://github.com/romeOz/rock-sanitize/blob/master/docs/rules.md)
+ * [Custom rules](https://github.com/romeOz/rock-sanitize/blob/master/docs/custom-rules.md)
 
 Requirements
 -------------------

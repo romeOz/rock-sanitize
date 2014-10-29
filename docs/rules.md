@@ -7,14 +7,44 @@ Rules
  * [s::allOf()](#sallofs)
   
 ### [Types](#types-1)
+
+  * [s::bool()](#sbool)
+  * [s::float()](#sfloat)
+  * [s::float()](#sint)
+  * [s::string()](#sstring)
+  * [s::toType()](#stotype)
   
 ### [String](#string-1)
+
+  * [s::basicTags()](#sbasictags)
+  * [s::decode()](#sdecode)
+  * [s::email()](#semail)
+  * [s::encode()](#sencode)
+  * [s::lowercase()](#slowercase)
+  * [s::lowerFirst()](#slowerfirst)
+  * [s::ltrimWords()](#sltrimwordswords)
+  * [s::noiseWords()](#snoiseWords)
+  * [s::numbers()](#snumbers)
+  * [s::removeScript()](#sremovescript)
+  * [s::removeTags()](#sremovetags)
+  * [s::replaceRandChars()](#sreplacerandchars)
+  * [s::rtrimWords()](#srtrimwordswords)
+  * [s::specialChars()](#sspecialchars)
+  * [s::translit()](#stranslit)
+  * [s::truncate()](#struncate)
+  * [s::truncateWords()](#struncatewords)
+  * [s::uppercase()](#suppercase)
+  * [s::upperFirst()](#supperfirst)
   
 ### [Numeric](#numeric-1)
+  
+  * [s::negative()](#snegative)
+  * [s::positive()](#spositive)
 
 ### [Other](#other-1)
 
- * [v::call()](#scallmixed-callback)
+ * [v::call()](#scallcall)
+ * [v::unserialize()](#sunserialize)
 
 ### [Custom rules](custom-rules.md)
 
@@ -137,7 +167,7 @@ s::toType()->sanitize('false');
 
 Removes denied tags. 
 
-> Allowed inline tags by default (`<b>`, `<h1>`, `<a>`,... [see](https://github.com/romeOz/rock-sanitize/blob/master/src/rules/BasicTags.php#L7) ).
+> Allowed inline tags by default (`<b>`, `<h1>`, `<a>`,...). [See](https://github.com/romeOz/rock-sanitize/blob/master/src/rules/BasicTags.php#L7) 
 
 ```php
 s::basicTags()->sanitize('<article>foo</article>');
@@ -195,7 +225,10 @@ s::ltrimWords(['foo', 'bar'])->sanitize('foo text');
 // output: text
 ```
 
+#### s::noiseWords()
 #### s::noiseWords($words)
+
+Removes noise words. [See](https://github.com/romeOz/rock-sanitize/blob/master/src/rules/NoiseWords.php#L8).
 
 ```php
 s::noiseWords()->sanitize('made by France');
@@ -229,6 +262,8 @@ s::removeTags()->sanitize('<b>Hello world!</b>');
 
 #### s::replaceRandChars()
 #### s::replaceRandChars($replaceTo = '*')
+
+For safe display.
 
 ```php
 s::replaceRandChars()->sanitize('tom@site.com');
@@ -296,6 +331,8 @@ s::upperFirst()->sanitize('foo');
 
 #### s::negative()
 
+If the value is positive, it is converted to 0.
+
 ```php
 s::negative()->sanitize(7);
 // output: 0
@@ -305,6 +342,8 @@ s::negative()->sanitize(-7);
 ```
 
 #### s::positive()
+
+If the value is negative, it is converted to 0.
 
 ```php
 s::positive()->sanitize(-7);

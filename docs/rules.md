@@ -3,7 +3,7 @@ Rules
 
 ### [Generics](#generics-1)
 
- * [s::attributes](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
+ * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
  * [s::allOf()](#sallofs)
   
 ### [Types](#types-1)
@@ -23,7 +23,7 @@ Rules
   * [s::lowercase()](#slowercase)
   * [s::lowerFirst()](#slowerfirst)
   * [s::ltrimWords()](#sltrimwordswords)
-  * [s::noiseWords()](#snoiseWords)
+  * [s::noiseWords()](#snoisewords)
   * [s::numbers()](#snumbers)
   * [s::removeScript()](#sremovescript)
   * [s::removeTags()](#sremovetags)

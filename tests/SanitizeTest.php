@@ -267,4 +267,10 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $s = new Sanitize($config);
         $this->assertSame(7.0, $s->round()->sanitize(7.4));
     }
+
+    public function testExistsRule()
+    {
+        $this->assertTrue((new Sanitize())->existsRule('string'));
+        $this->assertFalse((new Sanitize())->existsRule('unknown'));
+    }
 } 

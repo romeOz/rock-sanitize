@@ -125,6 +125,11 @@ class Sanitize
         return $input;
     }
 
+    public function existsRule($name)
+    {
+        return isset($this->rules[$name]);
+    }
+
     public function __call($name, $arguments)
     {
         if ($name === 'attributes' || $name === 'allOf' || $name === 'nested') {

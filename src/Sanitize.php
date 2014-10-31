@@ -40,6 +40,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize attributes(array $attributes)
  * @method static Sanitize allOf(Sanitize $sanitize)
  * @method static Sanitize nested(bool $nested = true)
+ * @method static Sanitize rules(array $rules)
  *
  * @method static Sanitize basicTags(string $allowedTags = '')
  * @method static Sanitize bool()
@@ -132,7 +133,7 @@ class Sanitize
 
     public function __call($name, $arguments)
     {
-        if ($name === 'attributes' || $name === 'allOf' || $name === 'nested') {
+        if ($name === 'attributes' || $name === 'allOf' || $name === 'nested' || $name === 'rules') {
             call_user_func_array([$this, "{$name}Internal"], $arguments);
             return $this;
         }
@@ -176,6 +177,18 @@ class Sanitize
     protected function nestedInternal($nested = true)
     {
         $this->nested = $nested;
+        return $this;
+    }
+
+    protected function rulesInternal(array $rules)
+    {
+        foreach ($rules as $rule => $args) {
+            if (is_int($rule)) {
+                $rule = $args;
+                $args = [];
+            }
+            call_user_func_array([$this, $rule], $args);
+        }
         return $this;
     }
 

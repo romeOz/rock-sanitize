@@ -268,6 +268,12 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(7.0, $s->round()->sanitize(7.4));
     }
 
+    public function testRules()
+    {
+        $rules = ['removeTags', 'call' => ['trim'], 'toType'];
+        $this->assertSame(777, Sanitize::rules($rules)->sanitize('<b> 777</b>'));
+    }
+
     public function testExistsRule()
     {
         $this->assertTrue((new Sanitize())->existsRule('string'));

@@ -29,6 +29,7 @@ use rock\sanitize\rules\RemoveTags;
 use rock\sanitize\rules\String;
 use rock\sanitize\rules\ToType;
 use rock\sanitize\rules\Translit;
+use rock\sanitize\rules\Trim;
 use rock\sanitize\rules\Truncate;
 use rock\sanitize\rules\TruncateWords;
 use rock\sanitize\rules\Unserialize;
@@ -66,6 +67,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize string()
  * @method static Sanitize toType()
  * @method static Sanitize translit()
+ * @method static Sanitize trim()
  * @method static Sanitize truncate(int $length = 4, string $suffix = '...')
  * @method static Sanitize truncateWords(int $length = 100, string $suffix = '...')
  * @method static Sanitize unserialize()
@@ -219,6 +221,7 @@ class Sanitize
             'string' => String::className(),
             'toType' => ToType::className(),
             'translit' => Translit::className(),
+            'trim' => Trim::className(),
             'truncate' => Truncate::className(),
             'truncateWords' => TruncateWords::className(),
             'unserialize'=> Unserialize::className(),

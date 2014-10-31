@@ -31,6 +31,7 @@ Rules
   * [s::rtrimWords()](#srtrimwordswords)
   * [s::specialChars()](#sspecialchars)
   * [s::translit()](#stranslit)
+  * [s::trim()](#strim)
   * [s::truncate()](#struncate)
   * [s::truncateWords()](#struncatewords)
   * [s::uppercase()](#suppercase)
@@ -295,6 +296,13 @@ Convert to translit. [See](https://en.wikipedia.org/wiki/Translit).
 ```php
 s::translit()->sanitize('Любовь');
 // output: Lyubov'
+```
+
+#### s::trim()
+
+```php
+s::trim()->sanitize(' foo   ');
+// output: foo
 ```
 
 #### s::truncate()

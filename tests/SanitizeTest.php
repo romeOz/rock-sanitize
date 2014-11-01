@@ -285,4 +285,32 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $s = Sanitize::call('strip_tags')->call('abs');
         $this->assertSame(5.5, $s->sanitize('-5.5</b>     '));
     }
+
+    /**
+     * @link https://github.com/romeOz/rock-sanitize/issues/1
+     */
+    public function testIssue1()
+    {
+        $sanitize = Sanitize::removeTags()->call('trim')->toType();
+        $input = [
+            'form' => [
+                '_csrf' => 'foo',
+                'email' => '',
+                'password' => ' <b>bar</b> ',
+            ],
+            'button' => '',
+        ];
+        $this->assertSame(
+            [
+                'form' =>
+                    [
+                        '_csrf' => 'foo',
+                        'email' => '',
+                        'password' => 'bar',
+                    ],
+                'button' => '',
+            ],
+            $sanitize->sanitize($input)
+        );
+    }
 } 

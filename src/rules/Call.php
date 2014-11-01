@@ -26,7 +26,8 @@ class Call extends Rule
      */
     public function sanitize($input)
     {
-        array_unshift($this->args, $input);
-        return call_user_func_array($this->call, $this->args);
+        $args = $this->args;
+        array_unshift($args, $input);
+        return call_user_func_array($this->call, $args);
     }
 }

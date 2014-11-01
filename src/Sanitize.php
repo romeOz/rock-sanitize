@@ -4,6 +4,7 @@ namespace rock\sanitize;
 
 
 
+use rock\sanitize\rules\Abs;
 use rock\sanitize\rules\BasicTags;
 use rock\sanitize\rules\Boolean;
 use rock\sanitize\rules\Call;
@@ -20,6 +21,7 @@ use rock\sanitize\rules\Negative;
 use rock\sanitize\rules\NoiseWords;
 use rock\sanitize\rules\Numbers;
 use rock\sanitize\rules\Positive;
+use rock\sanitize\rules\Round;
 use rock\sanitize\rules\SpecialChars;
 use rock\sanitize\rules\ReplaceRandChars;
 use rock\sanitize\rules\RtrimWords;
@@ -43,6 +45,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize nested(bool $nested = true)
  * @method static Sanitize rules(array $rules)
  *
+ * @method static Sanitize abs(string $allowedTags = '')
  * @method static Sanitize basicTags(string $allowedTags = '')
  * @method static Sanitize bool()
  * @method static Sanitize call(mixed $call, array $args = null)
@@ -64,6 +67,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize removeTags()
  * @method static Sanitize replaceRandChars(string $replaceTo = '*')
  * @method static Sanitize rtrimWords(array $words)
+ * @method static Sanitize round(int $precision = 0)
  * @method static Sanitize string()
  * @method static Sanitize toType()
  * @method static Sanitize translit()
@@ -197,6 +201,7 @@ class Sanitize
     protected function defaultRules()
     {
         return [
+            'abs' => Abs::className(),
             'basicTags' => BasicTags::className(),
             'bool' => Boolean::className(),
             'call' => Call::className(),
@@ -217,6 +222,7 @@ class Sanitize
             'removeScript' => RemoveScript::className(),
             'removeTags' => RemoveTags::className(),
             'replaceRandChars' => ReplaceRandChars::className(),
+            'round' => Round::className(),
             'rtrimWords' => RtrimWords::className(),
             'string' => String::className(),
             'toType' => ToType::className(),

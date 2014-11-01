@@ -39,8 +39,10 @@ Rules
   
 ### [Numeric](#numeric-1)
   
+  * [s::abs()](#sabs)
   * [s::negative()](#snegative)
   * [s::positive()](#spositive)
+  * [s::round()](#sround)
 
 ### [Other](#other-1)
 
@@ -337,6 +339,15 @@ s::upperFirst()->sanitize('foo');
 
 ### Numeric
 
+#### s::abs()
+
+Convert to absolute.
+
+```php
+s::abs()->sanitize('-7.7');
+// output: 7.7
+```
+
 #### s::negative()
 
 If the value is positive, it is converted to 0.
@@ -359,6 +370,16 @@ s::positive()->sanitize(-7);
 
 s::positive()->sanitize(7);
 // output: 7
+```
+
+#### s::round()
+#### s::round(int $precision = 0)
+
+Rounds a float.
+
+```php
+s::round()->sanitize('7.7');
+// output: 8.0
 ```
 
 ### Other

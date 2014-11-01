@@ -149,7 +149,7 @@ class Sanitize
         /** @var Rule $rule */
         $reflect = new \ReflectionClass($this->rules[$name]);
         $rule = $reflect->newInstanceArgs($arguments);
-        $this->_rules[$name] = $rule;
+        $this->_rules[] = $rule;
         return $this;
     }
 
@@ -163,7 +163,7 @@ class Sanitize
     protected function attributesInternal(array $attributes)
     {
         $this->_rules = [];
-        $this->_rules['attributes'] = new Attributes(['attributes' => $attributes]);
+        $this->_rules[] = new Attributes(['attributes' => $attributes]);
 
         return $this;
     }
@@ -171,7 +171,7 @@ class Sanitize
     protected function allOfInternal(Sanitize $sanitize)
     {
         $this->_rules = [];
-        $this->_rules['allOf'] = new AllOf(['sanitize' => $sanitize]);
+        $this->_rules[] = new AllOf(['sanitize' => $sanitize]);
 
         return $this;
     }

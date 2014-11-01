@@ -279,4 +279,10 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue((new Sanitize())->existsRule('string'));
         $this->assertFalse((new Sanitize())->existsRule('unknown'));
     }
+
+    public function testMultiRules()
+    {
+        $s = Sanitize::call('strip_tags')->call('abs');
+        $this->assertSame(5.5, $s->sanitize('-5.5</b>     '));
+    }
 } 

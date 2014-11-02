@@ -193,6 +193,10 @@ class Sanitize
                 $rule = $args;
                 $args = [];
             }
+            if (is_array($rule)) {
+                $args = (array)current($rule);
+                $rule = key($rule);
+            }
             call_user_func_array([$this, $rule], $args);
         }
         return $this;

@@ -313,4 +313,32 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             $sanitize->sanitize($input)
         );
     }
+
+    /**
+     * @link https://github.com/romeOz/rock-sanitize/issues/2
+     */
+    public function testIssue2()
+    {
+        $sanitize = Sanitize::rules([['call' => 'trim']]);
+        $input = [
+            'form' => [
+                '_csrf' => 'foo',
+                'email' => '',
+                'password' => ' bar ',
+            ],
+            'button' => ' baz   ',
+        ];
+        $this->assertSame(
+            array (
+                'form' =>
+                    array (
+                        '_csrf' => 'foo',
+                        'email' => '',
+                        'password' => 'bar',
+                    ),
+                'button' => 'baz',
+            ),
+            $sanitize->sanitize($input)
+        );
+    }
 } 

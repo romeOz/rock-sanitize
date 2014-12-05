@@ -282,8 +282,8 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
 
     public function testMultiRules()
     {
-        $s = Sanitize::call('strip_tags')->toType()->call('abs');
-        $this->assertSame(5.5, $s->sanitize('-5.5</b>     '));
+        $s = Sanitize::call('strip_tags');
+        $this->assertSame(5, $s->sanitize('-5.5</b>     '));
 
         $s = Sanitize::call('floor')->toType()->call('abs');
         $this->assertSame(6.0, $s->sanitize('-5.5</b>     '));

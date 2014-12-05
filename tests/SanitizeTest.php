@@ -285,8 +285,8 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $s = Sanitize::call('strip_tags')->call('abs');
         $this->assertSame(5.5, $s->sanitize('<b>-5.5</b>'));
 
-//        $s = Sanitize::call('floor')->toType()->call('abs');
-//        $this->assertSame(6.0, $s->sanitize('<b>-5.5</b>     '));
+        $s = Sanitize::call('floor')->toType()->call('abs');
+        $this->assertSame(6.0, $s->sanitize('<b>-5.5</b>     '));
     }
 
     /**

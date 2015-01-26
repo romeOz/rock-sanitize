@@ -10,6 +10,6 @@ class UpperFirst extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::upperFirst($input) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::upperFirst($input) : $input;
     }
 } 

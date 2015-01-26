@@ -3,7 +3,10 @@
 namespace rock\sanitize;
 
 
-class AllOf
+use rock\base\ObjectInterface;
+use rock\base\ObjectTrait;
+
+class AllOf implements ObjectInterface
 {
     use ObjectTrait {
         ObjectTrait::__construct as parentConstruct;
@@ -19,7 +22,7 @@ class AllOf
     public function sanitize($collection)
     {
         if (!$this->sanitize instanceof Sanitize) {
-            throw new Exception("`{$this->sanitize}` is not `".Sanitize::className()."`");
+            throw new SanitizeException("`{$this->sanitize}` is not `".Sanitize::className()."`");
         }
         $object = null;
         if (is_object($collection)) {

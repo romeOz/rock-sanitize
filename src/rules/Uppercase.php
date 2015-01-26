@@ -10,6 +10,6 @@ class Uppercase extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::upper($input) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::upper($input) : $input;
     }
 } 

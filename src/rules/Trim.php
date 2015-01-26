@@ -2,6 +2,7 @@
 
 namespace rock\sanitize\rules;
 
+
 class Trim extends Rule
 {
     /**

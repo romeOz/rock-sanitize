@@ -1,9 +1,8 @@
 <?php
 
-namespace rockunit\sanitize;
+namespace rockunit;
 
 
-use rock\sanitize\Exception;
 use rock\sanitize\Sanitize;
 
 class Foo
@@ -39,7 +38,7 @@ class CallTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \rock\sanitize\SanitizeException
      */
     public function testThrowException()
     {

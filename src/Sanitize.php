@@ -3,7 +3,9 @@
 namespace rock\sanitize;
 
 
-
+use rock\base\ObjectInterface;
+use rock\base\ObjectTrait;
+use rock\di\Container;
 use rock\sanitize\rules\Abs;
 use rock\sanitize\rules\BasicTags;
 use rock\sanitize\rules\Boolean;
@@ -30,7 +32,7 @@ use rock\sanitize\rules\RemoveScript;
 use rock\sanitize\rules\RemoveTags;
 use rock\sanitize\rules\String;
 use rock\sanitize\rules\ToType;
-use rock\sanitize\rules\Translit;
+use rock\sanitize\rules\Slug;
 use rock\sanitize\rules\Trim;
 use rock\sanitize\rules\Truncate;
 use rock\sanitize\rules\TruncateWords;
@@ -45,7 +47,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize nested(bool $nested = true)
  * @method static Sanitize rules(array $rules)
  *
- * @method static Sanitize abs(string $allowedTags = '')
+ * @method static Sanitize abs()
  * @method static Sanitize basicTags(string $allowedTags = '')
  * @method static Sanitize bool()
  * @method static Sanitize call(mixed $call, array $args = null)
@@ -66,11 +68,11 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize removeScript()
  * @method static Sanitize removeTags()
  * @method static Sanitize replaceRandChars(string $replaceTo = '*')
- * @method static Sanitize rtrimWords(array $words)
  * @method static Sanitize round(int $precision = 0)
+ * @method static Sanitize rtrimWords(array $words)
  * @method static Sanitize string()
  * @method static Sanitize toType()
- * @method static Sanitize translit()
+ * @method static Sanitize slug(string $replacement = '-', bool $lowercase = true)
  * @method static Sanitize trim()
  * @method static Sanitize truncate(int $length = 4, string $suffix = '...')
  * @method static Sanitize truncateWords(int $length = 100, string $suffix = '...')
@@ -80,10 +82,11 @@ use rock\sanitize\rules\UpperFirst;
  *
  * @package rock\sanitize
  */
-class Sanitize
+class Sanitize implements ObjectInterface
 {
     use ObjectTrait {
         ObjectTrait::__construct as parentConstruct;
+        ObjectTrait::__call as parentCall;
     }
 
     const REMAINDER = '_remainder';
@@ -95,7 +98,7 @@ class Sanitize
     public $rules = [];
     public $nested = true;
     /** @var Rule[]  */
-    protected $_rules = [];
+    public  $_rules = [];
 
     public function __construct($config = [])
     {
@@ -108,11 +111,11 @@ class Sanitize
      *
      * @param mixed $input
      * @return mixed
-     * @throws Exception
+     * @throws SanitizeException
      */
     public function sanitize($input)
     {
-        foreach($this->_rules as $ruleName => $rule){
+        foreach($this->_rules as $rule){
 
             if ($rule instanceof Attributes) {
                 return $rule->sanitize($input);
@@ -123,6 +126,7 @@ class Sanitize
             if ((is_array($input) || is_object($input)) && $this->nested) {
                 return (new AllOf(['sanitize' => $this]))->sanitize($input);
             }
+
             $input = $rule->sanitize($input);
             if ((is_array($input) || is_object($input)) && $this->nested) {
                 $input = (new AllOf(['sanitize' => $this]))->sanitize($input);
@@ -132,6 +136,11 @@ class Sanitize
         return $input;
     }
 
+    /**
+     * Exists rule.
+     * @param string  $name name of rule.
+     * @return bool
+     */
     public function existsRule($name)
     {
         return isset($this->rules[$name]);
@@ -139,16 +148,15 @@ class Sanitize
 
     public function __call($name, $arguments)
     {
-        if ($name === 'attributes' || $name === 'allOf' || $name === 'nested' || $name === 'rules') {
-            call_user_func_array([$this, "{$name}Internal"], $arguments);
-            return $this;
+        if (method_exists($this, "{$name}Internal")) {
+            return call_user_func_array([$this, "{$name}Internal"], $arguments);
         }
 
         if (!isset($this->rules[$name])) {
-            throw new Exception("Unknown rule: {$name}");
+            throw new SanitizeException("Unknown rule: {$name}");
         }
         if (!class_exists($this->rules[$name])) {
-            throw new Exception(Exception::UNKNOWN_CLASS, ['class' => $this->rules[$name]]);
+            throw new SanitizeException(SanitizeException::UNKNOWN_CLASS, ['class' => $this->rules[$name]]);
         }
         /** @var Rule $rule */
         $reflect = new \ReflectionClass($this->rules[$name]);
@@ -159,9 +167,7 @@ class Sanitize
 
     public static function __callStatic($name, $arguments)
     {
-        /** @var static $self */
-        $self = new static;
-        return call_user_func_array([$self, $name], $arguments);
+        return call_user_func_array([static::getInstance(static::className()), $name], $arguments);
     }
 
     protected function attributesInternal(array $attributes)
@@ -202,6 +208,24 @@ class Sanitize
         return $this;
     }
 
+    /**
+     * Get instance.
+     *
+     * If exists {@see \rock\di\Container} that uses it.
+     *
+     * @param string|array $config the configuration. It can be either a string representing the class name
+     *                                     or an array representing the object configuration.
+     * @return static
+     * @throws \rock\di\ContainerException
+     */
+    protected static function getInstance($config)
+    {
+        if (class_exists('\rock\di\Container')) {
+            return Container::load($config);
+        }
+        return new static();
+    }
+
     protected function defaultRules()
     {
         return [
@@ -230,7 +254,7 @@ class Sanitize
             'rtrimWords' => RtrimWords::className(),
             'string' => String::className(),
             'toType' => ToType::className(),
-            'translit' => Translit::className(),
+            'slug' => Slug::className(),
             'trim' => Trim::className(),
             'truncate' => Truncate::className(),
             'truncateWords' => TruncateWords::className(),

@@ -3,9 +3,11 @@
 namespace rock\sanitize;
 
 
+use rock\base\ObjectInterface;
+use rock\base\ObjectTrait;
 use rock\helpers\ArrayHelper;
 
-class Attributes
+class Attributes implements ObjectInterface
 {
     use ObjectTrait {
         ObjectTrait::__construct as parentConstruct;
@@ -28,7 +30,7 @@ class Attributes
         $result = [];
         foreach ($this->attributes as $attribute => $sanitize) {
             if (!$sanitize instanceof Sanitize) {
-                throw new Exception("`{$attribute}` is not `".Sanitize::className()."`");
+                throw new SanitizeException("`{$attribute}` is not `".Sanitize::className()."`");
             }
             if ($attribute === Sanitize::REMAINDER) {
                 $result = array_merge($result, $this->remainder($sanitize, $input));

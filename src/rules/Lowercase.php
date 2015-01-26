@@ -10,6 +10,6 @@ class Lowercase extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::lower($input) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::lower($input) : $input;
     }
 } 

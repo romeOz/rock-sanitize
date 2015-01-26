@@ -1,6 +1,6 @@
 <?php
 
-namespace rockunit\sanitize;
+namespace rockunit;
 
 
 use rock\helpers\Json;

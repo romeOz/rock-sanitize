@@ -18,6 +18,6 @@ class ReplaceRandChars extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::replaceRandChars($input, $this->replaceTo) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::replaceRandChars($input, $this->replaceTo) : $input;
     }
 } 

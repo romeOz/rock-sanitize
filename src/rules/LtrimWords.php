@@ -20,6 +20,6 @@ class LtrimWords extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::ltrimWords($input, $this->words) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::ltrimWords($input, $this->words) : $input;
     }
 } 

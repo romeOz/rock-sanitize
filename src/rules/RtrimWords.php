@@ -18,6 +18,6 @@ class RtrimWords extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::rtrimWords($input, $this->words) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::rtrimWords($input, $this->words) : $input;
     }
 } 

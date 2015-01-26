@@ -18,6 +18,6 @@ class Encode extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::encode($input, $this->doubleEncode) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::encode($input, $this->doubleEncode) : $input;
     }
 } 

@@ -2,7 +2,7 @@
 
 namespace rock\sanitize\rules;
 
-use rock\sanitize\Exception;
+use rock\sanitize\SanitizeException;
 
 class Call extends Rule
 {
@@ -12,7 +12,7 @@ class Call extends Rule
     public function __construct($call, array $args = null, $config = [])
     {
         if (!is_callable($call) && !function_exists($call)) {
-            throw new Exception('Invalid call.');
+            throw new SanitizeException('Invalid call.');
         }
         $this->parentConstruct($config);
         $this->call = $call;

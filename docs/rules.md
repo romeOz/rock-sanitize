@@ -30,7 +30,7 @@ Rules
   * [s::replaceRandChars()](#sreplacerandchars)
   * [s::rtrimWords()](#srtrimwordswords)
   * [s::specialChars()](#sspecialchars)
-  * [s::translit()](#stranslit)
+  * [s::slug()](#sslug)
   * [s::trim()](#strim)
   * [s::truncate()](#struncate)
   * [s::truncateWords()](#struncatewords)
@@ -289,15 +289,17 @@ s::specialChars()->sanitize('«Hello world!»');
 // output: Hello world!
 ```
 
-#### s::translit()
+#### s::slug()
+#### s::slug(string $replacement = '-', bool $lowercase = true)
 
-Convert to translit. [See](https://en.wikipedia.org/wiki/Translit).
-
-> Only supported Cyrillic.
+Convert to slug. [See](https://en.wikipedia.org/wiki/Translit).
 
 ```php
 s::translit()->sanitize('Любовь');
-// output: Lyubov'
+// output: Lyubov
+
+s::slug('-', false)->sanitize('Привет Мир');
+// output: Privet-Mir
 ```
 
 #### s::trim()

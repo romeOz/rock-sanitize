@@ -20,6 +20,6 @@ class TruncateWords extends Rule
      */
     public function sanitize($input)
     {
-        return \rock\helpers\String::truncateWords($input, $this->length, $this->suffix);
+        return \rock\helpers\StringHelper::truncateWords($input, $this->length, $this->suffix);
     }
 } 

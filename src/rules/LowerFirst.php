@@ -10,6 +10,6 @@ class LowerFirst extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? \rock\helpers\String::lowerFirst($input) : $input;
+        return is_string($input) ? \rock\helpers\StringHelper::lowerFirst($input) : $input;
     }
 } 

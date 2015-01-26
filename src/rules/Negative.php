@@ -3,7 +3,7 @@
 namespace rock\sanitize\rules;
 
 
-use rock\helpers\Numeric;
+use rock\helpers\NumericHelper;
 
 class Negative extends Rule
 {
@@ -12,7 +12,7 @@ class Negative extends Rule
      */
     public function sanitize($input)
     {
-        $input = Numeric::toNumeric($input);
+        $input = NumericHelper::toNumeric($input);
         return  $input > 0 ? 0 : $input;
     }
 } 

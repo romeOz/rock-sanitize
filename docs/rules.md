@@ -294,6 +294,8 @@ s::specialChars()->sanitize('«Hello world!»');
 
 Convert to slug. [See](https://en.wikipedia.org/wiki/Translit).
 
+> language support:  Latin, Greek, Turkish, Russian, Ukrainian, Czech, Polish, Latvian, Vietnamese
+
 ```php
 s::translit()->sanitize('Любовь');
 // output: Lyubov

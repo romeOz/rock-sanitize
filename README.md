@@ -14,6 +14,7 @@ Features
 
  * Sanitization of scalar variable and array (`attributes()`, `allOf()`)
  * Customization of sanitization rules
+ * Module for [Rock Framework](https://github.com/romeOz/rock)
  
 Installation
 -------------------

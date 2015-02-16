@@ -4,6 +4,7 @@ Sanitizator for PHP
 [![Latest Stable Version](https://poser.pugx.org/romeOz/rock-sanitize/v/stable.svg)](https://packagist.org/packages/romeOz/rock-sanitize)
 [![Total Downloads](https://poser.pugx.org/romeOz/rock-sanitize/downloads.svg)](https://packagist.org/packages/romeOz/rock-sanitize)
 [![Build Status](https://travis-ci.org/romeOz/rock-sanitize.svg?branch=master)](https://travis-ci.org/romeOz/rock-sanitize)
+[![HHVM Status](http://hhvm.h4cc.de/badge/romeoz/rock-sanitize.svg)](http://hhvm.h4cc.de/package/romeoz/rock-sanitize)
 [![Coverage Status](https://coveralls.io/repos/romeOz/rock-sanitize/badge.svg?branch=master)](https://coveralls.io/r/romeOz/rock-sanitize?branch=master)
 [![License](https://poser.pugx.org/romeOz/rock-sanitize/license.svg)](https://packagist.org/packages/romeOz/rock-sanitize)
 

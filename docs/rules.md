@@ -5,6 +5,7 @@ Rules
 
  * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
  * [s::allOf()](#sallofs)
+ * [remainder](remainder)
   
 ### [Types](#types-1)
 
@@ -104,6 +105,39 @@ output:
 ]
 */
 ```
+
+####remainder
+
+```php
+use rock\sanitize\Sanitize as s;
+
+$input = [
+    'name' => 'Tom <b>Sawyer</b>',
+    'email' => '<script>alert("Hello");</script>',
+    'age' => 22,
+    'wages' => -100
+];
+
+$sanitize = s::attributes(
+    [
+        'name' => Sanitize::removeTags(),
+        'email' => Sanitize::removeScript(),
+        Sanitize::REMAINDER => Sanitize::positive(),
+    ]
+);
+
+/*
+output:
+
+[
+    'name' => 'Tom Sawyer',
+    'email' => 'alert("Hello");',
+    'age' => 22,
+    'wages' => 0,
+]
+*/
+```
+
 ### Types
 
 #### s::bool()

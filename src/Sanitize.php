@@ -41,7 +41,8 @@ use rock\sanitize\rules\Uppercase;
 use rock\sanitize\rules\UpperFirst;
 
 /**
- * Class Sanitize
+ * Sanitize
+ *
  * @method static Sanitize attributes(array $attributes)
  * @method static Sanitize allOf(Sanitize $sanitize)
  * @method static Sanitize nested(bool $nested = true)

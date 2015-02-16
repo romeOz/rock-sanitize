@@ -5,6 +5,7 @@ Rules
 
  * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
  * [s::allOf()](#sallofs)
+ * [nested array](#nested-array)
  * [remainder](remainder)
   
 ### [Types](#types-1)
@@ -102,6 +103,52 @@ output:
 [
   'name' => 'Tom',
   'email' => '(tom@site.com)',
+]
+*/
+```
+####nested array
+	
+`true` by default.
+
+```php
+use rock\sanitize\Sanitize as s;
+
+$input = [
+    'name' => '<b>Tom</b>',
+    'other' => [
+        'email' => '<b>tom@site.com</b>'
+    ]
+];
+
+$sanitize = s::removeTags();
+s::allOf($sanitize)->sanitize($input);
+
+/*
+output:
+
+[
+    'name' => 'Tom',
+    'other' =>
+        [
+            'email' => 'tom@site.com',
+        ],
+]
+*/
+
+// to disable
+
+$sanitize = s::removeTags()->nested(false);
+s::allOf($sanitize)->sanitize($input);
+
+/*
+output:
+
+[
+    'name' => 'Tom',
+    'other' =>
+        [
+            'email' => '<b>tom@site.com</b>',
+        ],
 ]
 */
 ```

@@ -6,7 +6,7 @@ Rules
  * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
  * [s::allOf()](#sallofs)
  * [nested array](#nested-array)
- * [remainder](remainder)
+ * [remainder](#remainder)
   
 ### [Types](#types-1)
 

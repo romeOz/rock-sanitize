@@ -24,6 +24,8 @@
     <filter>
         <blacklist>
             <file>./src/SanitizeException.php</file>
+            <file>./src/polyfills.php</file>
+            <directory>./tests/</directory>
         </blacklist>
     </filter>
     <logging>

@@ -8,16 +8,10 @@ use rock\base\ObjectTrait;
 
 class AllOf implements ObjectInterface
 {
-    use ObjectTrait {
-        ObjectTrait::__construct as parentConstruct;
-    }
+    use ObjectTrait;
+
     /** @var  Sanitize */
     public $sanitize;
-
-    public function __construct($config = [])
-    {
-        $this->parentConstruct($config);
-    }
 
     public function sanitize($collection)
     {

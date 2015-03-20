@@ -9,16 +9,9 @@ use rock\helpers\ArrayHelper;
 
 class Attributes implements ObjectInterface
 {
-    use ObjectTrait {
-        ObjectTrait::__construct as parentConstruct;
-    }
+    use ObjectTrait;
 
     public $attributes = [];
-
-    public function __construct($config = [])
-    {
-        $this->parentConstruct($config);
-    }
 
     public function sanitize($input)
     {

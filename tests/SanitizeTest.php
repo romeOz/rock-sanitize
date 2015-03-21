@@ -136,8 +136,8 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'name' => 'foo bar',
             'email' => 'bar alert(\'Hello\');baz',
         ];
-//        $sanitize = Sanitize::attributes(Sanitize::removeTags());
-//        $this->assertSame($expected, $sanitize->sanitize($input));
+        $sanitize = Sanitize::attributes(Sanitize::removeTags());
+        $this->assertSame($expected, $sanitize->sanitize($input));
 
         $sanitize = Sanitize::removeTags();
         $this->assertSame($expected, $sanitize->sanitize($input));

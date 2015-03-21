@@ -13,7 +13,7 @@ Sanitizator for PHP
 Features
 -------------------
 
- * Sanitization of scalar variable and array (`attributes()`, `allOf()`)
+ * Sanitization of scalar variable and array (`attributes()`)
  * Customization of sanitization rules
  * Module for [Rock Framework](https://github.com/romeOz/rock)
  
@@ -72,7 +72,11 @@ output:
 */
 
 // all attributes:
-Sanitize::allOf(Sanitize::removeTags())->sanitize($input);
+Sanitize::attributes(Sanitize::removeTags())->sanitize($input);
+
+// or
+Sanitize::removeTags()->sanitize($input);
+
 /*
 output:
 

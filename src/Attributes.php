@@ -20,6 +20,9 @@ class Attributes implements ObjectInterface
             $object = $input;
             $input = (array)$input;
         }
+        if ($this->attributes instanceof Sanitize) {
+            $this->each($input);
+        }
         $result = [];
         foreach ($this->attributes as $attribute => $sanitize) {
             if (!$sanitize instanceof Sanitize) {
@@ -45,9 +48,18 @@ class Attributes implements ObjectInterface
         return $result;
     }
 
+    protected function each($input)
+    {
+        $sanitize = $this->attributes;
+        $this->attributes = [];
+        foreach($input as $key => $value) {
+            $this->attributes[$key] = $sanitize;
+        }
+    }
+
     protected function remainder(Sanitize $sanitize, $input)
     {
         $input = ArrayHelper::diffByKeys($input, array_keys($this->attributes));
-        return (new AllOf(['sanitize' => $sanitize]))->sanitize($input);
+        return (new static(['attributes' => $sanitize]))->sanitize($input);
     }
 }

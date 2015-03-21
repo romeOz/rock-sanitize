@@ -1,10 +1,9 @@
 Rules
 ==================
 
-### [Generics](#generics-1)
+### [General](#general-1)
 
  * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
- * [s::allOf()](#sallofs)
  * [nested array](#nested-array)
  * [remainder](#remainder)
   
@@ -54,9 +53,10 @@ Rules
 ### [Custom rules](custom-rules.md)
 
 
-### Generics
+### General
 
 #### s::attributes(['attribute_1' => $s1, 'attribute_2' => $s2, 'attribute_3' => $s3,... ])
+#### s::attributes(Sanitize $s)
 
 For arrays or objects. Will sanitize each attribute individually.
 
@@ -84,9 +84,7 @@ output:
 */
 ```
 
-#### s::allOf($s)
-
-For arrays or objects. Will sanitize all attributes.
+Sanitize all attributes:
 
 ```php
 use rock\sanitize\Sanitize as s;
@@ -96,7 +94,7 @@ $input = [
     'email' => '<i>(tom@site.com)</i>'
 ];
 
-s::allOf(s::removeTags())->sanitize($input);
+s::attributes(s::removeTags())->sanitize($input);
 /*
 output:
 
@@ -121,7 +119,7 @@ $input = [
 ];
 
 $sanitize = s::removeTags();
-s::allOf($sanitize)->sanitize($input);
+s::attributes($sanitize)->sanitize($input);
 
 /*
 output:
@@ -138,7 +136,7 @@ output:
 // to disable
 
 $sanitize = s::removeTags()->nested(false);
-s::allOf($sanitize)->sanitize($input);
+s::attributes($sanitize)->sanitize($input);
 
 /*
 output:

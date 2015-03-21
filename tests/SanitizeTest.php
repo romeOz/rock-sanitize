@@ -136,8 +136,8 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'name' => 'foo bar',
             'email' => 'bar alert(\'Hello\');baz',
         ];
-        $sanitize = Sanitize::allOf(Sanitize::removeTags());
-        $this->assertSame($expected, $sanitize->sanitize($input));
+//        $sanitize = Sanitize::attributes(Sanitize::removeTags());
+//        $this->assertSame($expected, $sanitize->sanitize($input));
 
         $sanitize = Sanitize::removeTags();
         $this->assertSame($expected, $sanitize->sanitize($input));
@@ -153,7 +153,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'name' => 'foo bar',
             'email' => 'bar alert(\'Hello\');baz',
         ];
-        $sanitize = Sanitize::allOf(Sanitize::removeTags());
+        $sanitize = Sanitize::attributes(Sanitize::removeTags());
         $this->assertInstanceOf('\stdClass', $sanitize->sanitize($input));
         $this->assertSame($expected, (array)$sanitize->sanitize($input));
 
@@ -179,7 +179,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                 ],
         ];
         $sanitize = Sanitize::removeTags();
-        $this->assertSame($expected, Sanitize::allOf($sanitize)->sanitize($input));
+        $this->assertSame($expected, Sanitize::attributes($sanitize)->sanitize($input));
 
         $input = [
             [
@@ -214,7 +214,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                         ],
                 ],
         ];
-        $this->assertSame($expected, Sanitize::allOf($sanitize)->sanitize($input));
+        $this->assertSame($expected, Sanitize::attributes($sanitize)->sanitize($input));
         $input = [
             'name' => '<b>Tom</b>',
             'other' => [
@@ -229,7 +229,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                     'email' => '<b>tom@site.com</b>',
                 ],
         ];
-        $this->assertSame($expected, Sanitize::allOf($sanitize->nested(false))->sanitize($input));
+        $this->assertSame($expected, Sanitize::attributes($sanitize->nested(false))->sanitize($input));
     }
 
     /**

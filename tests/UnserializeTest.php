@@ -30,7 +30,7 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertSame($expected,$sanitize->sanitize($input));
 
-        $sanitize = Sanitize::allOf(Sanitize::removeTags()->unserialize());
+        $sanitize = Sanitize::attributes(Sanitize::removeTags()->unserialize());
         $this->assertSame($expected,$sanitize->sanitize($input));
 
         $sanitize = Sanitize::attributes([Sanitize::REMAINDER => Sanitize::removeTags()->unserialize()]);

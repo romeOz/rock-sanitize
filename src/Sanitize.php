@@ -43,8 +43,7 @@ use rock\sanitize\rules\UpperFirst;
 /**
  * Sanitize
  *
- * @method static Sanitize attributes(array $attributes)
- * @method static Sanitize allOf(Sanitize $sanitize)
+ * @method static Sanitize attributes($attributes)
  * @method static Sanitize nested(bool $nested = true)
  * @method static Sanitize rules(array $rules)
  *
@@ -121,17 +120,11 @@ class Sanitize implements ObjectInterface
             if ($rule instanceof Attributes) {
                 return $rule->sanitize($input);
             }
-            if ($rule instanceof AllOf) {
-                return $rule->sanitize($input);
-            }
             if ((is_array($input) || is_object($input)) && $this->nested) {
-                return (new AllOf(['sanitize' => $this]))->sanitize($input);
+                return (new Attributes(['attributes' => $this]))->sanitize($input);
             }
 
             $input = $rule->sanitize($input);
-            if ((is_array($input) || is_object($input)) && $this->nested) {
-                $input = (new AllOf(['sanitize' => $this]))->sanitize($input);
-            }
         }
 
         return $input;
@@ -171,18 +164,10 @@ class Sanitize implements ObjectInterface
         return call_user_func_array([static::getInstance(static::className()), $name], $arguments);
     }
 
-    protected function attributesInternal(array $attributes)
+    protected function attributesInternal($attributes)
     {
         $this->_rules = [];
         $this->_rules[] = new Attributes(['attributes' => $attributes]);
-
-        return $this;
-    }
-
-    protected function allOfInternal(Sanitize $sanitize)
-    {
-        $this->_rules = [];
-        $this->_rules[] = new AllOf(['sanitize' => $sanitize]);
 
         return $this;
     }
@@ -210,7 +195,7 @@ class Sanitize implements ObjectInterface
     }
 
     /**
-     * Get instance.
+     * Returns self instance.
      *
      * If exists {@see \rock\di\Container} that uses it.
      *

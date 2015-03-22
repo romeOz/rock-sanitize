@@ -119,7 +119,17 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $sanitize = Sanitize::attributes(
             [
                 'name' => Sanitize::removeTags(),
-                Sanitize::REMAINDER => Sanitize::positive(),
+                '*' => Sanitize::positive(),
+                'email' => Sanitize::removeScript(),
+            ]
+        );
+        $this->assertSame($expected, $sanitize->sanitize($input));
+
+        // custom label
+        $sanitize = Sanitize::labelRemainder('_rem')->attributes(
+            [
+                'name' => Sanitize::removeTags(),
+                '_rem' => Sanitize::positive(),
                 'email' => Sanitize::removeScript(),
             ]
         );

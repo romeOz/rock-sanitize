@@ -153,6 +153,8 @@ output:
 
 ####remainder
 
+Default label `*`.
+
 ```php
 use rock\sanitize\Sanitize as s;
 
@@ -167,7 +169,7 @@ $sanitize = s::attributes(
     [
         'name' => Sanitize::removeTags(),
         'email' => Sanitize::removeScript(),
-        Sanitize::REMAINDER => Sanitize::positive(),
+        '*' => Sanitize::positive(),
     ]
 );
 
@@ -181,6 +183,19 @@ output:
     'wages' => 0,
 ]
 */
+```
+
+Change default label:
+
+```php
+$sanitize = s::labelRemainder('_remainder')
+    ->attributes(
+        [
+            'name' => Sanitize::removeTags(),
+            'email' => Sanitize::removeScript(),
+            '_remainder' => Sanitize::positive(),
+        ]
+    );
 ```
 
 ### Types

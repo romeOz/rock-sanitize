@@ -11,6 +11,7 @@ class Attributes implements ObjectInterface
 {
     use ObjectTrait;
 
+    public $remainder;
     public $attributes = [];
 
     public function sanitize($input)
@@ -28,7 +29,7 @@ class Attributes implements ObjectInterface
             if (!$sanitize instanceof Sanitize) {
                 throw new SanitizeException("`{$attribute}` is not `".Sanitize::className()."`");
             }
-            if ($attribute === Sanitize::REMAINDER) {
+            if ($attribute === $this->remainder) {
                 $result = array_merge($result, $this->remainder($sanitize, $input));
                 continue;
             }

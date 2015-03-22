@@ -45,6 +45,7 @@ use rock\sanitize\rules\UpperFirst;
  *
  * @method static Sanitize attributes($attributes)
  * @method static Sanitize nested(bool $nested = true)
+ * @method static Sanitize labelRemainder(string $label = '*')
  * @method static Sanitize rules(array $rules)
  *
  * @method static Sanitize abs()
@@ -89,14 +90,13 @@ class Sanitize implements ObjectInterface
         ObjectTrait::__call as parentCall;
     }
 
-    const REMAINDER = '_remainder';
-
     /**
      * Sanitize rules.
      * @var array
      */
     public $rules = [];
     public $nested = true;
+    public $remainder = '*';
     /** @var Rule[]  */
     public  $_rules = [];
 
@@ -121,7 +121,7 @@ class Sanitize implements ObjectInterface
                 return $rule->sanitize($input);
             }
             if ((is_array($input) || is_object($input)) && $this->nested) {
-                return (new Attributes(['attributes' => $this]))->sanitize($input);
+                return (new Attributes(['attributes' => $this, 'remainder' => $this->remainder]))->sanitize($input);
             }
 
             $input = $rule->sanitize($input);
@@ -167,7 +167,7 @@ class Sanitize implements ObjectInterface
     protected function attributesInternal($attributes)
     {
         $this->_rules = [];
-        $this->_rules[] = new Attributes(['attributes' => $attributes]);
+        $this->_rules[] = new Attributes(['attributes' => $attributes, 'remainder' => $this->remainder]);
 
         return $this;
     }
@@ -175,6 +175,12 @@ class Sanitize implements ObjectInterface
     protected function nestedInternal($nested = true)
     {
         $this->nested = $nested;
+        return $this;
+    }
+
+    protected function labelRemainderInternal($label = '*')
+    {
+        $this->remainder = $label;
         return $this;
     }
 

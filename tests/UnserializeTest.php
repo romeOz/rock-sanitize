@@ -20,13 +20,7 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
             'foo <b>bar</b>',
             Json::encode(['msg' => '<b>bar</b> baz'])
         ];
-        $expected = [
-            0 => 'foo bar',
-            1 =>
-                [
-                    'msg' => 'bar baz',
-                ],
-        ];
+        $expected = ['foo bar', ['msg' => 'bar baz',],];
 
         $sanitize = Sanitize::attributes(Sanitize::removeTags()->unserialize());
         $this->assertSame($expected,$sanitize->sanitize($input));
@@ -37,6 +31,29 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
         $sanitize = Sanitize::attributes([0 => Sanitize::positive(), '*' => Sanitize::removeTags()->unserialize()]);
         $expected = [0,  ['msg' => 'bar baz',],];
         $this->assertSame($expected, $sanitize->sanitize($input));
+
+        $input = [
+            'foo' => ' <b>foo</b>     ',
+            'bar' => '    <b>bar   </b>',
+            'baz' => '{"baz" : " <b> baz  </b>     "}'
+        ];
+
+        $s = Sanitize::attributes(
+            [
+                'bar' => Sanitize::removeTags()->trim(),
+                'baz' => Sanitize::unserialize()->removeTags()->trim(),
+            ]
+        );
+
+        $expected = [
+            'foo' => ' <b>foo</b>     ',
+            'bar' => 'bar',
+            'baz' =>
+                [
+                    'baz' => 'baz',
+                ],
+        ];
+        $this->assertSame($expected, $s->sanitize($input));
     }
 
     public function testNested()

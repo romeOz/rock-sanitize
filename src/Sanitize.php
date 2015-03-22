@@ -124,8 +124,12 @@ class Sanitize implements ObjectInterface
                 $rule->setProperties($config);
                 return $rule->sanitize($input);
             }
-
             $input = $rule->sanitize($input);
+
+            if ((is_array($input) || is_object($input))) {
+                $config['attributes'] = $this;
+                $input = (new Attributes($config))->sanitize($input);
+            }
         }
 
         return $input;

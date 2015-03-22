@@ -12,7 +12,7 @@ class NegativeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSuccess($input)
     {
-        $s = Sanitize::nested(false)->negative();
+        $s = Sanitize::recursive(false)->negative();
         $this->assertSame(0, $s->sanitize($input));
     }
 
@@ -21,7 +21,7 @@ class NegativeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFail($input, $expected)
     {
-        $s = Sanitize::nested(false)->negative();
+        $s = Sanitize::recursive(false)->negative();
         $this->assertSame($expected, $s->sanitize($input));
     }
 

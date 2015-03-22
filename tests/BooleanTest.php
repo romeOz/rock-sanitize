@@ -9,7 +9,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
 {
     public function test_()
     {
-        $s = Sanitize::nested(false)->bool();
+        $s = Sanitize::recursive(false)->bool();
         $this->assertTrue($s->sanitize(['foo']));
         $this->assertTrue($s->sanitize(1));
         $this->assertTrue($s->sanitize('1'));

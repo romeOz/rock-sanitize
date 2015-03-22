@@ -16,7 +16,6 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
 
     public function testUnserialize()
     {
-        $sanitize = Sanitize::removeTags()->unserialize();
         $input = [
             'foo <b>bar</b>',
             Json::encode(['msg' => '<b>bar</b> baz'])
@@ -28,7 +27,6 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
                     'msg' => 'bar baz',
                 ],
         ];
-        $this->assertSame($expected,$sanitize->sanitize($input));
 
         $sanitize = Sanitize::attributes(Sanitize::removeTags()->unserialize());
         $this->assertSame($expected,$sanitize->sanitize($input));
@@ -49,7 +47,7 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
             'text_3' => Json::encode(['msg' => '<b>foo</b>']),
 
         ];
-        $sanitize = Sanitize::attributes(['*' => Sanitize::removeTags()->unserialize(), 'text_2' => Sanitize::nested(false), ]);
+        $sanitize = Sanitize::attributes(['*' => Sanitize::removeTags()->unserialize(), 'text_2' => Sanitize::recursive(false), ]);
         $expected = [
             'text_1' => 'foo bar',
             'text_2' => '{"msg":"<b>bar<\\/b> baz"}',

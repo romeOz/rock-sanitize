@@ -9,7 +9,7 @@ class FloatTest extends \PHPUnit_Framework_TestCase
 {
     public function testFloat()
     {
-        $s = Sanitize::nested(false)->float();
+        $s = Sanitize::recursive(false)->float();
         $this->assertSame(1.0, $s->sanitize(['foo']));
         $this->assertSame(1.0, $s->sanitize(1));
         $this->assertSame(1.0, $s->sanitize('1'));

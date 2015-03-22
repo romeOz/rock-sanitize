@@ -74,9 +74,6 @@ output:
 // all attributes:
 Sanitize::attributes(Sanitize::removeTags())->sanitize($input);
 
-// or
-Sanitize::removeTags()->sanitize($input);
-
 /*
 output:
 

@@ -4,7 +4,7 @@ Rules
 ### [General](#general-1)
 
  * [s::attributes()](#sattributesattribute_1--s1-attribute_2--s2-attribute_3--s3-)
- * [nested array](#nested-array)
+ * [recursive](#recursive)
  * [remainder](#remainder)
   
 ### [Types](#types-1)
@@ -104,9 +104,9 @@ output:
 ]
 */
 ```
-####nested array
+####recursive
 	
-`true` by default.
+Recursive sanitize array. `true` by default.
 
 ```php
 use rock\sanitize\Sanitize as s;
@@ -133,10 +133,9 @@ output:
 ]
 */
 
-// to disable
+// recursive to false
 
-$sanitize = s::removeTags()->nested(false);
-s::attributes($sanitize)->sanitize($input);
+s::recursive(false)->attributes(s::removeTags())->sanitize($input);
 
 /*
 output:

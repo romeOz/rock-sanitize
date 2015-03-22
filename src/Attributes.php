@@ -12,28 +12,43 @@ class Attributes implements ObjectInterface
     use ObjectTrait;
 
     public $remainder;
+    public $recursive = true;
     public $attributes = [];
 
     public function sanitize($input)
     {
         $object = null;
+        $attributes = $this->attributes;
         if (is_object($input)) {
             $object = $input;
             $input = (array)$input;
         }
-        if ($this->attributes instanceof Sanitize) {
-            $this->each($input);
+        if ($attributes instanceof Sanitize) {
+            $attributes = $this->each($attributes, $input);
         }
         $result = [];
-        foreach ($this->attributes as $attribute => $sanitize) {
+        foreach ($attributes as $attribute => $sanitize) {
             if (!$sanitize instanceof Sanitize) {
                 throw new SanitizeException("`{$attribute}` is not `".Sanitize::className()."`");
             }
             if ($attribute === $this->remainder) {
-                $result = array_merge($result, $this->remainder($sanitize, $input));
+                $result = array_merge($result, $this->remainder($sanitize, $attributes, $input));
                 continue;
             }
             if (!isset($input[$attribute])) {
+                continue;
+            }
+            if ((is_array($input[$attribute]) || is_object($input[$attribute]))) {
+                if (!$this->recursive) {
+                    continue;
+                }
+                $config = [
+                    'remainder' => $this->remainder,
+                    'recursive' => $this->recursive,
+                    'attributes' => $this->attributes
+                ];
+                $this->setProperties($config);
+                $result[$attribute] = $this->sanitize($input[$attribute]);
                 continue;
             }
             $result[$attribute] = $sanitize->sanitize($input[$attribute]);
@@ -49,18 +64,24 @@ class Attributes implements ObjectInterface
         return $result;
     }
 
-    protected function each($input)
+    protected function each(Sanitize $sanitize, $input)
     {
-        $sanitize = $this->attributes;
-        $this->attributes = [];
+        $attributes = [];
         foreach($input as $key => $value) {
-            $this->attributes[$key] = $sanitize;
+            $attributes[$key] = $sanitize;
         }
+        return $attributes;
     }
 
-    protected function remainder(Sanitize $sanitize, $input)
+    protected function remainder(Sanitize $sanitize, array $attributes, $input)
     {
-        $input = ArrayHelper::diffByKeys($input, array_keys($this->attributes));
-        return (new static(['attributes' => $sanitize]))->sanitize($input);
+        $input = ArrayHelper::diffByKeys($input, array_keys($attributes));
+        $config = [
+            'remainder' => $this->remainder,
+            'recursive' => $this->recursive,
+            'attributes' => $sanitize
+        ];
+        $this->setProperties($config);
+        return $this->sanitize($input);
     }
 }

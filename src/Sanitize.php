@@ -44,7 +44,7 @@ use rock\sanitize\rules\UpperFirst;
  * Sanitize
  *
  * @method static Sanitize attributes($attributes)
- * @method static Sanitize nested(bool $nested = true)
+ * @method static Sanitize recursive(bool $recursive = true)
  * @method static Sanitize labelRemainder(string $label = '*')
  * @method static Sanitize rules(array $rules)
  *
@@ -95,7 +95,7 @@ class Sanitize implements ObjectInterface
      * @var array
      */
     public $rules = [];
-    public $nested = true;
+    public $recursive = true;
     public $remainder = '*';
     /** @var Rule[]  */
     public  $_rules = [];
@@ -116,12 +116,13 @@ class Sanitize implements ObjectInterface
     public function sanitize($input)
     {
         foreach($this->_rules as $rule){
-
             if ($rule instanceof Attributes) {
+                $config = [
+                    'remainder' => $this->remainder,
+                    'recursive' => $this->recursive
+                ];
+                $rule->setProperties($config);
                 return $rule->sanitize($input);
-            }
-            if ((is_array($input) || is_object($input)) && $this->nested) {
-                return (new Attributes(['attributes' => $this, 'remainder' => $this->remainder]))->sanitize($input);
             }
 
             $input = $rule->sanitize($input);
@@ -172,9 +173,9 @@ class Sanitize implements ObjectInterface
         return $this;
     }
 
-    protected function nestedInternal($nested = true)
+    protected function recursiveInternal($recursive = true)
     {
-        $this->nested = $nested;
+        $this->recursive = $recursive;
         return $this;
     }
 

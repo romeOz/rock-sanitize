@@ -148,9 +148,6 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         ];
         $sanitize = Sanitize::attributes(Sanitize::removeTags());
         $this->assertSame($expected, $sanitize->sanitize($input));
-
-        $sanitize = Sanitize::removeTags();
-        $this->assertSame($expected, $sanitize->sanitize($input));
     }
 
     public function testAllOfAsObject()
@@ -172,12 +169,13 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, (array)$sanitize->sanitize($input));
     }
 
-    public function testNested()
+    public function testRecursive()
     {
         $input = [
             'name' => '<b>Tom</b>',
             'other' => [
-                'email' => '<b>tom@site.com</b>'
+                'email' => '<b>tom@site.com</b>',
+                'username' => '<b>user</b>'
             ]
         ];
 
@@ -186,6 +184,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'other' =>
                 [
                     'email' => 'tom@site.com',
+                    'username' => 'user'
                 ],
         ];
         $sanitize = Sanitize::removeTags();
@@ -239,7 +238,32 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                     'email' => '<b>tom@site.com</b>',
                 ],
         ];
-        $this->assertSame($expected, Sanitize::attributes($sanitize->nested(false))->sanitize($input));
+        $this->assertSame($expected, Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($input));
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'email' => '<b>tom@site.com</b>',
+                ],
+        ];
+        $this->assertSame($expected, Sanitize::recursive(false)->attributes(['other' => Sanitize::removeTags()])->sanitize($input));
+
+        $object = new Recursive_1();
+        $s = Sanitize::attributes(Sanitize::removeTags())->sanitize($object);
+        $this->assertSame('text foo', $s->foo);
+
+        $object = new Recursive_1();
+        $object->bar = new Recursive_2();
+        $s = Sanitize::attributes(Sanitize::removeTags())->sanitize($object);
+        $this->assertSame('text foo', $s->foo);
+        $this->assertSame('text baz', $s->bar->baz);
+
+        $object = new Recursive_1();
+        $object->bar = new Recursive_2();
+        $s = Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($object);
+        $this->assertSame('text foo', $s->foo);
+        $this->assertSame('text <b>baz</b>', $s->bar->baz);
     }
 
     /**
@@ -284,7 +308,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIssue1()
     {
-        $sanitize = Sanitize::removeTags()->call('trim')->toType();
+        $sanitize = Sanitize::attributes(Sanitize::removeTags()->call('trim')->toType());
         $input = [
             'form' => [
                 '_csrf' => 'foo',
@@ -312,7 +336,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIssue2()
     {
-        $sanitize = Sanitize::rules([['call' => 'trim']]);
+        $sanitize = Sanitize::attributes(Sanitize::rules([['call' => 'trim']]));
         $input = [
             'form' => [
                 '_csrf' => 'foo',
@@ -351,4 +375,15 @@ class Round extends Rule
     {
         return round($input, $this->precision);
     }
+}
+
+class Recursive_1
+{
+    public $foo = '<b>text</b> foo';
+    public $bar = 'text bar';
+}
+
+class Recursive_2
+{
+    public $baz = 'text <b>baz</b>';
 }

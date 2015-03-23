@@ -128,7 +128,7 @@ class Sanitize implements ObjectInterface
 
             if ((is_array($input) || is_object($input))) {
                 $config['attributes'] = $this;
-                $input = (new Attributes($config))->sanitize($input);
+                return (new Attributes($config))->sanitize($input);
             }
         }
 

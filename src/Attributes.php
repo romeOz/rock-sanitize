@@ -11,7 +11,7 @@ class Attributes implements ObjectInterface
 {
     use ObjectTrait;
 
-    public $remainder;
+    public $remainder = '*';
     public $recursive = true;
     public $attributes = [];
 
@@ -35,19 +35,23 @@ class Attributes implements ObjectInterface
                 $result = array_merge($result, $this->remainder($sanitize, $attributes, $input));
                 continue;
             }
+
+            if (strrpos($attribute, '.') !== false && ArrayHelper::getValue($input, explode('.', $attribute))) {
+                $input = $this->chain($sanitize, $input, $attribute);
+                continue;
+            }
+
             if (!isset($input[$attribute])) {
                 continue;
             }
+
             if ((is_array($input[$attribute]) || is_object($input[$attribute]))) {
                 if (!$this->recursive) {
                     continue;
                 }
-                $config = [
-                    'remainder' => $this->remainder,
-                    'recursive' => $this->recursive,
-                    'attributes' => $this->attributes
-                ];
-                $this->setProperties($config);
+                $this->attributes = is_array($this->attributes) && isset($this->attributes[$attribute])
+                    ? $this->attributes[$attribute]
+                    : $this->attributes;
                 $result[$attribute] = $this->sanitize($input[$attribute]);
                 continue;
             }
@@ -76,12 +80,24 @@ class Attributes implements ObjectInterface
     protected function remainder(Sanitize $sanitize, array $attributes, $input)
     {
         $input = ArrayHelper::diffByKeys($input, array_keys($attributes));
-        $config = [
-            'remainder' => $this->remainder,
-            'recursive' => $this->recursive,
-            'attributes' => $sanitize
-        ];
-        $this->setProperties($config);
+        $this->attributes = $sanitize;
         return $this->sanitize($input);
+    }
+
+    protected function chain(Sanitize $sanitize, $input, $attribute)
+    {
+        $callback = function($value) use ($sanitize, $attribute){
+            if (is_array($value)) {
+                if (!$this->recursive) {
+                    return $value;
+                }
+                $this->attributes = is_array($this->attributes) && isset($this->attributes[$attribute])
+                    ? $this->attributes[$attribute]
+                    : $this->attributes;
+                return $this->sanitize($value);
+            }
+            return $sanitize->sanitize($value);
+        };
+        return ArrayHelper::updateValue($input, explode('.', $attribute), $callback);
     }
 }

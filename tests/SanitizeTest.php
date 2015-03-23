@@ -175,7 +175,10 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'name' => '<b>Tom</b>',
             'other' => [
                 'email' => '<b>tom@site.com</b>',
-                'username' => '<b>user</b>'
+                'username' => '<b>user</b>',
+                'note' => [
+                    '<b>text...</b>'
+                ]
             ]
         ];
 
@@ -184,7 +187,10 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'other' =>
                 [
                     'email' => 'tom@site.com',
-                    'username' => 'user'
+                    'username' => 'user',
+                    'note' => [
+                        'text...'
+                    ]
                 ],
         ];
         $sanitize = Sanitize::removeTags();
@@ -224,10 +230,15 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                 ],
         ];
         $this->assertSame($expected, Sanitize::attributes($sanitize)->sanitize($input));
+
+        // fail
         $input = [
             'name' => '<b>Tom</b>',
             'other' => [
-                'email' => '<b>tom@site.com</b>'
+                'email' => '<b>tom@site.com</b>',
+                'note' => [
+                    '<b>text...</b>'
+                ]
             ]
         ];
 
@@ -236,6 +247,9 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'other' =>
                 [
                     'email' => '<b>tom@site.com</b>',
+                    'note' => [
+                        '<b>text...</b>'
+                    ]
                 ],
         ];
         $this->assertSame($expected, Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($input));
@@ -245,13 +259,25 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             'other' =>
                 [
                     'email' => '<b>tom@site.com</b>',
+                    'note' => [
+                        '<b>text...</b>'
+                    ]
                 ],
         ];
         $this->assertSame($expected, Sanitize::recursive(false)->attributes(['other' => Sanitize::removeTags()])->sanitize($input));
+    }
+
+    public function testRecursiveAsObject()
+    {
+        $object = new Recursive_1();
+        $s = Sanitize::attributes(Sanitize::removeTags()->trim())->sanitize($object);
+        $this->assertSame('text foo', $s->foo);
+        $this->assertSame('text bar', $s->bar);
 
         $object = new Recursive_1();
-        $s = Sanitize::attributes(Sanitize::removeTags())->sanitize($object);
-        $this->assertSame('text foo', $s->foo);
+        $s = Sanitize::attributes(['bar' => Sanitize::removeTags()->trim()])->sanitize($object);
+        $this->assertSame('<b>text</b> foo', $s->foo);
+        $this->assertSame('text bar', $s->bar);
 
         $object = new Recursive_1();
         $object->bar = new Recursive_2();
@@ -261,9 +287,149 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
 
         $object = new Recursive_1();
         $object->bar = new Recursive_2();
+        $s = Sanitize::attributes(['bar' =>Sanitize::removeTags()])->sanitize($object);
+        $this->assertSame('<b>text</b> foo', $s->foo);
+        $this->assertSame('text baz', $s->bar->baz);
+
+        // fail
+        $object = new Recursive_1();
+        $object->bar = new Recursive_2();
         $s = Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($object);
         $this->assertSame('text foo', $s->foo);
         $this->assertSame('text <b>baz</b>', $s->bar->baz);
+    }
+
+    public function testRecursiveMultiArray()
+    {
+        $input = [
+            'name' => '<b>Tom</b>',
+            'other' => [
+                'text' => '<b> foo</b> ',
+                'email' => '<b> tom@site.com </b>',
+                'note' => [
+                    'first' => ' <b>text... </b>'
+                ]
+            ]
+        ];
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => 'foo',
+                    'email' => 'tom@site.com',
+                    'note' =>
+                        [
+                            'first' => 'text...',
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::attributes(['other' =>  Sanitize::removeTags()->trim()])->sanitize($input));
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b> foo</b> ',
+                    'email' => '<b> tom@site.com </b>',
+                    'note' =>
+                        [
+                            'first' => ' <b>text... </b>',
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::recursive(false)->attributes(['other' =>  Sanitize::removeTags()->trim()])->sanitize($input));
+    }
+
+    public function testChain()
+    {
+        $input = [
+            'name' => '<b>Tom</b>',
+            'other' => [
+                'text' => '<b>foo</b>',
+                'email' => '<b>tom@site.com</b>',
+                'note' => [
+                    'first' => '<b>text...</b>',
+                    'last' => '<b>last...</b>'
+                ]
+            ]
+        ];
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b>foo</b>',
+                    'email' => 'tom@site.com',
+                    'note' =>
+                        [
+                            'first' => '<b>text...</b>',
+                            'last' => '<b>last...</b>'
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::attributes(['other.email' =>  Sanitize::removeTags()])->sanitize($input));
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b>foo</b>',
+                    'email' => 'tom@site.com',
+                    'note' =>
+                        [
+                            'first' => '<b>text...</b>',
+                            'last' => 'last...'
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::attributes(['other.email' =>  Sanitize::removeTags(), 'other.note.last' =>  Sanitize::removeTags()])->sanitize($input));
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b>foo</b>',
+                    'email' => 'tom@site.com',
+                    'note' =>
+                        [
+                            'first' => 'text...',
+                            'last' => 'last...'
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::attributes(['other.email' =>  Sanitize::removeTags(), 'other.note' =>  Sanitize::removeTags()])->sanitize($input));
+
+        // fail
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b>foo</b>',
+                    'email' => '<b>tom@site.com</b>',
+                    'note' =>
+                        [
+                            'first' => '<b>text...</b>',
+                            'last' => '<b>last...</b>'
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::attributes(['other.emaill' =>  Sanitize::removeTags()])->sanitize($input));
+
+        $expected = [
+            'name' => '<b>Tom</b>',
+            'other' =>
+                [
+                    'text' => '<b>foo</b>',
+                    'email' => 'tom@site.com',
+                    'note' =>
+                        [
+                            'first' => '<b>text...</b>',
+                            'last' => '<b>last...</b>',
+                        ],
+                ],
+        ];
+        $this->assertEquals($expected, Sanitize::recursive(false)->attributes(['other.email' =>  Sanitize::removeTags(), 'other.note' =>  Sanitize::removeTags()])->sanitize($input));
     }
 
     /**
@@ -380,7 +546,7 @@ class Round extends Rule
 class Recursive_1
 {
     public $foo = '<b>text</b> foo';
-    public $bar = 'text bar';
+    public $bar = ' <b>text bar </b> ';
 }
 
 class Recursive_2

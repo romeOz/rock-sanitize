@@ -54,6 +54,29 @@ class UnserializeTest extends \PHPUnit_Framework_TestCase
                 ],
         ];
         $this->assertSame($expected, $s->sanitize($input));
+
+        $input = [
+            'foo' => '<b>-5.5</b>',
+            'bar' => '5.5',
+            'baz' => '{"baz" : "5.6"}'
+        ];
+        $s = Sanitize::attributes(
+            [
+                'foo' => Sanitize::call('strip_tags')->call('abs')->call('ceil'),
+                'bar' => Sanitize::call('floor'),
+                'baz' => Sanitize::unserialize()->call('round'),
+            ]
+        );
+
+        $expected = [
+            'foo' => 6,
+            'bar' => 5,
+            'baz' =>
+                [
+                    'baz' => 6,
+                ],
+        ];
+        $this->assertEquals($expected, $s->sanitize($input));
     }
 
     public function testNested()

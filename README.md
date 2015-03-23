@@ -8,12 +8,12 @@ Sanitizator for PHP
 [![Coverage Status](https://coveralls.io/repos/romeOz/rock-sanitize/badge.svg?branch=master)](https://coveralls.io/r/romeOz/rock-sanitize?branch=master)
 [![License](https://poser.pugx.org/romeOz/rock-sanitize/license.svg)](https://packagist.org/packages/romeOz/rock-sanitize)
 
-[Rock sanitizator on Packagist](https://packagist.org/packages/romeOz/rock-sanitize)
+[Rock Sanitize on Packagist](https://packagist.org/packages/romeOz/rock-sanitize)
 
 Features
 -------------------
 
- * Sanitization of scalar variable and array (`attributes()`)
+ * Sanitization of scalar variable, array and object
  * Customization of sanitization rules
  * Module for [Rock Framework](https://github.com/romeOz/rock)
  
@@ -122,4 +122,4 @@ Requirements
 License
 -------------------
 
-The Rock Sanitizator is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The Rock Sanitize is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

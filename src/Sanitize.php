@@ -51,7 +51,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize abs()
  * @method static Sanitize basicTags(string $allowedTags = '')
  * @method static Sanitize bool()
- * @method static Sanitize call(mixed $call, array $args = null)
+ * @method static Sanitize call(callable $call, array $args = null)
  * @method static Sanitize decode()
  * @method static Sanitize defaultValue(mixed $default = null)
  * @method static Sanitize email()

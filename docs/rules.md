@@ -65,21 +65,21 @@ use rock\sanitize\Sanitize as s;
 
 $input = [
     'name' => '<b>Tom</b>',
-    'email' => '<i>(tom@site.com)</i>'
+    'age' => -22
 ];
 
 $attributes = [
-    'name' => s::removeTags(),
-    'email' => s::removeTags()->email()
+    'name' => Sanitize::removeTags(),
+    'age' => Sanitize::abs()
 ];
         
-s::attributes($attributes)->sanitize($input);
+Sanitize::attributes($attributes)->sanitize($input);
 /*
 output:
 
 [
   'name' => 'Tom',
-  'email' => 'tom@site.com',
+  'age' => 22
 ]
 */
 ```
@@ -91,7 +91,7 @@ use rock\sanitize\Sanitize as s;
 
 $input = [
     'name' => '<b>Tom</b>',
-    'email' => '<i>(tom@site.com)</i>'
+    'email' => '<i>tom@site.com</i>'
 ];
 
 s::attributes(s::removeTags())->sanitize($input);
@@ -100,7 +100,7 @@ output:
 
 [
   'name' => 'Tom',
-  'email' => '(tom@site.com)',
+  'email' => 'tom@site.com',
 ]
 */
 ```

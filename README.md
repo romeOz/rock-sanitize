@@ -53,12 +53,12 @@ use rock\sanitize\Sanitize;
 
 $input = [
     'name' => '<b>Tom</b>',
-    'email' => '<i>(tom@site.com)</i>'
+    'age' => -22
 ];
 
 $attributes = [
     'name' => Sanitize::removeTags(),
-    'email' => Sanitize::removeTags()->email()
+    'age' => Sanitize::abs()
 ];
         
 Sanitize::attributes($attributes)->sanitize($input);
@@ -67,21 +67,12 @@ output:
 
 [
   'name' => 'Tom',
-  'email' => 'tom@site.com',
+  'age' => 22
 ]
 */
 
 // all attributes:
 Sanitize::attributes(Sanitize::removeTags())->sanitize($input);
-
-/*
-output:
-
-[
-  'name' => 'Tom',
-  'email' => '(tom@site.com)',
-]
-*/
 ```
 
 Documentation

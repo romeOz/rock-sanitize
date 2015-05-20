@@ -5,7 +5,7 @@ namespace rockunit;
 
 use rock\sanitize\Sanitize;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BooleanRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function test_()
     {

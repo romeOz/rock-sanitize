@@ -3,13 +3,13 @@
 namespace rock\sanitize\rules;
 
 
-class Boolean extends Rule
+class StringRule extends Rule
 {
     /**
      * @inheritdoc
      */
     public function sanitize($input)
     {
-        return (bool)$input;
+        return (string)$input;
     }
 } 

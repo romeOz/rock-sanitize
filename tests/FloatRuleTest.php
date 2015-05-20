@@ -5,7 +5,7 @@ namespace rockunit;
 
 use rock\sanitize\Sanitize;
 
-class FloatTest extends \PHPUnit_Framework_TestCase
+class FloatRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testFloat()
     {

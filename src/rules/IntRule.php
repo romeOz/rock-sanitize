@@ -3,13 +3,13 @@
 namespace rock\sanitize\rules;
 
 
-class Float extends Rule
+class IntRule extends Rule
 {
     /**
      * @inheritdoc
      */
     public function sanitize($input)
     {
-        return (float)$input;
+        return (int)$input;
     }
 } 

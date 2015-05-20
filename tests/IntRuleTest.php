@@ -5,7 +5,7 @@ namespace rockunit;
 
 use rock\sanitize\Sanitize;
 
-class IntTest extends \PHPUnit_Framework_TestCase
+class IntRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testInt()
     {

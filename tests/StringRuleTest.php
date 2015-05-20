@@ -5,7 +5,7 @@ namespace rockunit;
 
 use rock\sanitize\Sanitize;
 
-class StringTest extends \PHPUnit_Framework_TestCase
+class StringRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testString()
     {

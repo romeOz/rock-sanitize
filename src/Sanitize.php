@@ -98,7 +98,7 @@ class Sanitize implements ObjectInterface
     public $recursive = true;
     public $remainder = '*';
     /** @var Rule[]  */
-    public  $_rules = [];
+    protected $rawRules = [];
 
     public function __construct($config = [])
     {
@@ -115,7 +115,7 @@ class Sanitize implements ObjectInterface
      */
     public function sanitize($input)
     {
-        foreach($this->_rules as $rule){
+        foreach($this->rawRules as $rule){
             if ($rule instanceof Attributes) {
                 $config = [
                     'remainder' => $this->remainder,
@@ -160,7 +160,7 @@ class Sanitize implements ObjectInterface
         /** @var Rule $rule */
         $reflect = new \ReflectionClass($this->rules[$name]);
         $rule = $reflect->newInstanceArgs($arguments);
-        $this->_rules[] = $rule;
+        $this->rawRules[] = $rule;
         return $this;
     }
 
@@ -171,8 +171,8 @@ class Sanitize implements ObjectInterface
 
     protected function attributesInternal($attributes)
     {
-        $this->_rules = [];
-        $this->_rules[] = new Attributes(['attributes' => $attributes, 'remainder' => $this->remainder]);
+        $this->rawRules = [];
+        $this->rawRules[] = new Attributes(['attributes' => $attributes, 'remainder' => $this->remainder]);
 
         return $this;
     }

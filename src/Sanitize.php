@@ -145,6 +145,14 @@ class Sanitize implements ObjectInterface
         return isset($this->rules[$name]);
     }
 
+    /**
+     * @return rules\Rule[]
+     */
+    public function getRawRules()
+    {
+        return $this->rawRules;
+    }
+
     public function __call($name, $arguments)
     {
         if (method_exists($this, "{$name}Internal")) {

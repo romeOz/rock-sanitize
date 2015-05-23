@@ -3,6 +3,7 @@
 namespace rockunit;
 
 
+use rock\sanitize\Attributes;
 use rock\sanitize\rules\Rule;
 use rock\sanitize\Sanitize;
 
@@ -523,6 +524,13 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
             ),
             $sanitize->sanitize($input)
         );
+    }
+
+    public function testGetRawRules()
+    {
+        $rawRules = Sanitize::attributes(Sanitize::removeTags())->getRawRules();
+        $rawRule = current($rawRules);
+        $this->assertTrue($rawRule instanceof Attributes);
     }
 }
 

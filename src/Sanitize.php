@@ -165,9 +165,7 @@ class Sanitize implements ObjectInterface
         if (!class_exists($this->rules[$name])) {
             throw new SanitizeException(SanitizeException::UNKNOWN_CLASS, ['class' => $this->rules[$name]]);
         }
-        /** @var Rule $rule */
-        $reflect = new \ReflectionClass($this->rules[$name]);
-        $rule = $reflect->newInstanceArgs($arguments);
+        $rule = $this->getInstanceRule($name, $arguments);
         $this->rawRules[] = $rule;
         return $this;
     }
@@ -211,6 +209,18 @@ class Sanitize implements ObjectInterface
             call_user_func_array([$this, $rule], $args);
         }
         return $this;
+    }
+
+    /**
+     * Returns instance rule.
+     * @param string $name name of rule
+     * @param array $arguments
+     * @return Rule
+     */
+    protected function getInstanceRule($name, array $arguments)
+    {
+        $reflect = new \ReflectionClass($this->rules[$name]);
+        return $reflect->newInstanceArgs($arguments);
     }
 
     /**

@@ -12,6 +12,8 @@ abstract class Rule implements ObjectInterface
         ObjectTrait::__construct as parentConstruct;
     }
 
+    public $recursive = true;
+
     /**
      * @param mixed $input
      * @return bool

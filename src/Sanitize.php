@@ -126,7 +126,7 @@ class Sanitize implements ObjectInterface
             }
             $input = $rule->sanitize($input);
 
-            if ((is_array($input) || is_object($input))) {
+            if ($rule->recursive && (is_array($input) || is_object($input))) {
                 $config['attributes'] = $this;
                 return (new Attributes($config))->sanitize($input);
             }

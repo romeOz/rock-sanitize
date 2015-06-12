@@ -17,8 +17,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "romeoz/rock-base" : "0.10.*",
-        "romeoz/rock-helpers" : "0.10.*"
+        "romeoz/rock-base" : "*@dev",
+        "romeoz/rock-helpers" : "*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "4.6.*"

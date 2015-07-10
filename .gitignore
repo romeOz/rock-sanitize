@@ -2,11 +2,8 @@
 ## Project
 ############
 
-vendor
+vendor/
 composer.lock
-./index.php
-assets/*
-views/*
 *~
 
 

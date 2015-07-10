@@ -3,8 +3,6 @@
 namespace rock\sanitize\rules;
 
 
-
-
 class LtrimWords extends Rule
 {
     protected $words = [];

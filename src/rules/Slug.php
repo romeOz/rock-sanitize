@@ -21,6 +21,6 @@ class Slug extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ?  Inflector::slug($input, $this->replacement, $this->lowercase) : $input;
+        return is_string($input) ? Inflector::slug($input, $this->replacement, $this->lowercase) : $input;
     }
 } 

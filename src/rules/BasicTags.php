@@ -19,6 +19,6 @@ class BasicTags extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ?  strip_tags($input, $this->allowedTags) : $input;
+        return is_string($input) ? strip_tags($input, $this->allowedTags) : $input;
     }
 } 

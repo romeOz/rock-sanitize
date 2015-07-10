@@ -16,7 +16,7 @@ class CallTest extends \PHPUnit_Framework_TestCase
     public function testCallback()
     {
         $s = Sanitize::call(
-            function($input){
+            function ($input) {
                 return strtoupper($input);
             }
         );

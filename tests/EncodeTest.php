@@ -15,6 +15,7 @@ class EncodeTest extends \PHPUnit_Framework_TestCase
         $s = Sanitize::string()->encode();
         $this->assertSame('7', $s->sanitize(7));
     }
+
     public function test_()
     {
         $s = Sanitize::encode();

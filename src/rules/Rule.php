@@ -8,7 +8,7 @@ use rock\base\ObjectTrait;
 
 abstract class Rule implements ObjectInterface
 {
-    use ObjectTrait{
+    use ObjectTrait {
         ObjectTrait::__construct as parentConstruct;
     }
 

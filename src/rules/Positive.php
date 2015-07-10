@@ -13,6 +13,6 @@ class Positive extends Rule
     public function sanitize($input)
     {
         $input = NumericHelper::toNumeric($input);
-        return  $input < 0 ? 0 : $input;
+        return $input < 0 ? 0 : $input;
     }
 } 

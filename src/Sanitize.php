@@ -5,7 +5,6 @@ namespace rock\sanitize;
 
 use rock\base\ObjectInterface;
 use rock\base\ObjectTrait;
-use rock\helpers\Instance;
 use rock\sanitize\rules\Abs;
 use rock\sanitize\rules\BasicTags;
 use rock\sanitize\rules\BooleanRule;
@@ -97,7 +96,7 @@ class Sanitize implements ObjectInterface
     public $rules = [];
     public $recursive = true;
     public $remainder = '*';
-    /** @var Rule[]  */
+    /** @var Rule[] */
     protected $rawRules = [];
 
     public function __construct($config = [])
@@ -115,7 +114,7 @@ class Sanitize implements ObjectInterface
      */
     public function sanitize($input)
     {
-        foreach($this->rawRules as $rule){
+        foreach ($this->rawRules as $rule) {
             if ($rule instanceof Attributes) {
                 $config = [
                     'remainder' => $this->remainder,
@@ -137,7 +136,7 @@ class Sanitize implements ObjectInterface
 
     /**
      * Exists rule.
-     * @param string  $name name of rule.
+     * @param string $name name of rule.
      * @return bool
      */
     public function existsRule($name)
@@ -172,7 +171,7 @@ class Sanitize implements ObjectInterface
 
     public static function __callStatic($name, $arguments)
     {
-        return call_user_func_array([static::getInstance(static::className()), $name], $arguments);
+        return call_user_func_array([static::getInstance(), $name], $arguments);
     }
 
     protected function attributesInternal($attributes)
@@ -224,17 +223,17 @@ class Sanitize implements ObjectInterface
     }
 
     /**
-     * Returns self instance.
+     * Returns instance.
      *
      * If exists {@see \rock\di\Container} that uses it.
-     *
-     * @param string|array $config the configuration. It can be either a string representing the class name
-     *                                     or an array representing the object configuration.
      * @return static
      */
-    protected static function getInstance($config)
+    protected static function getInstance()
     {
-        return Instance::ensure($config, static::className());
+        if (class_exists('\rock\di\Container')) {
+            return \rock\di\Container::load(static::className());
+        }
+        return new static();
     }
 
     protected function defaultRules()
@@ -269,9 +268,9 @@ class Sanitize implements ObjectInterface
             'trim' => Trim::className(),
             'truncate' => Truncate::className(),
             'truncateWords' => TruncateWords::className(),
-            'unserialize'=> Unserialize::className(),
-            'uppercase'=> Uppercase::className(),
-            'upperFirst'=> UpperFirst::className(),
+            'unserialize' => Unserialize::className(),
+            'uppercase' => Uppercase::className(),
+            'upperFirst' => UpperFirst::className(),
         ];
     }
 }

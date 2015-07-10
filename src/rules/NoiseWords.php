@@ -33,10 +33,10 @@ class NoiseWords extends Rule
         $value = preg_replace('/\s\s+/u', chr(32), $input);
         $value = " $value ";
         $words = explode(',', $this->enNoiseWords);
-        foreach($words as $word) {
+        foreach ($words as $word) {
             $word = trim($word);
             $word = " $word "; // Normalize
-            if (stripos($value, $word) !== FALSE){
+            if (stripos($value, $word) !== FALSE) {
                 $value = str_ireplace($word, chr(32), $value);
             }
         }

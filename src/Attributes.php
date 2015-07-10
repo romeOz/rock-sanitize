@@ -29,7 +29,7 @@ class Attributes implements ObjectInterface
         $result = [];
         foreach ($attributes as $attribute => $sanitize) {
             if (!$sanitize instanceof Sanitize) {
-                throw new SanitizeException("`{$attribute}` is not `".Sanitize::className()."`");
+                throw new SanitizeException("`{$attribute}` is not `" . Sanitize::className() . "`");
             }
             if ($attribute === $this->remainder) {
                 $result = array_merge($result, $this->remainder($sanitize, $attributes, $input));
@@ -71,7 +71,7 @@ class Attributes implements ObjectInterface
     protected function each(Sanitize $sanitize, $input)
     {
         $attributes = [];
-        foreach($input as $key => $value) {
+        foreach ($input as $key => $value) {
             $attributes[$key] = $sanitize;
         }
         return $attributes;
@@ -86,7 +86,7 @@ class Attributes implements ObjectInterface
 
     protected function chain(Sanitize $sanitize, $input, $attribute)
     {
-        $callback = function($value) use ($sanitize, $attribute){
+        $callback = function ($value) use ($sanitize, $attribute) {
             if (is_array($value)) {
                 if (!$this->recursive) {
                     return $value;

@@ -17,14 +17,11 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "romeoz/rock-base" : "*@dev",
-        "romeoz/rock-helpers" : "*@dev"
+        "romeoz/rock-base" : "0.11.*",
+        "romeoz/rock-helpers" : "0.11.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.7.0"
-    },
-    "suggest": {
-        "romeoz/rock-di": "required by module Rock Dependency Injection"
+        "phpunit/phpunit": "^4.7.0"
     },
     "autoload": {
         "psr-4": {

@@ -8,21 +8,21 @@ Sanitizator for PHP
 [![Coverage Status](https://coveralls.io/repos/romeOz/rock-sanitize/badge.svg?branch=master)](https://coveralls.io/r/romeOz/rock-sanitize?branch=master)
 [![License](https://poser.pugx.org/romeOz/rock-sanitize/license.svg)](https://packagist.org/packages/romeOz/rock-sanitize)
 
-[Rock Sanitize on Packagist](https://packagist.org/packages/romeOz/rock-sanitize)
-
 Features
 -------------------
 
  * Sanitization of scalar variable, array and object
- * Customization of sanitization rules
- * Module for [Rock Framework](https://github.com/romeOz/rock)
+ * Custom rules
+ * Standalone module/component for [Rock Framework](https://github.com/romeOz/rock)
  
 Installation
 -------------------
 
 From the Command Line:
 
-```composer require romeoz/rock-sanitize:*```
+```
+composer require romeoz/rock-sanitize
+```
 
 In your composer.json:
 
@@ -46,7 +46,7 @@ Sanitize::removeTags()
 // output: hello world!    
 ```
 
-####For Array or Object
+####As Array or Object
 
 ```php
 use rock\sanitize\Sanitize;

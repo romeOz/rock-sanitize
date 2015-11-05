@@ -5,6 +5,7 @@ namespace rock\sanitize;
 
 use rock\base\ObjectInterface;
 use rock\base\ObjectTrait;
+use rock\helpers\Instance;
 use rock\sanitize\rules\Abs;
 use rock\sanitize\rules\BasicTags;
 use rock\sanitize\rules\BooleanRule;
@@ -120,7 +121,7 @@ class Sanitize implements ObjectInterface
                     'remainder' => $this->remainder,
                     'recursive' => $this->recursive
                 ];
-                $rule->setProperties($config);
+                Instance::configure($rule, $config);
                 return $rule->sanitize($input);
             }
             $input = $rule->sanitize($input);

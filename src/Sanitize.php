@@ -86,7 +86,6 @@ use rock\sanitize\rules\UpperFirst;
 class Sanitize implements ObjectInterface
 {
     use ObjectTrait {
-        ObjectTrait::__construct as parentConstruct;
         ObjectTrait::__call as parentCall;
     }
 
@@ -100,9 +99,8 @@ class Sanitize implements ObjectInterface
     /** @var Rule[] */
     protected $rawRules = [];
 
-    public function __construct($config = [])
+    public function init()
     {
-        $this->parentConstruct($config);
         $this->rules = array_merge($this->defaultRules(), $this->rules);
     }
 

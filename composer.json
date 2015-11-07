@@ -17,11 +17,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "romeoz/rock-base" : "*@dev"
+        "romeoz/rock-base" : "0.12.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.7.0",
-        "romeoz/rock-helpers" : "*@dev"
+        "phpunit/phpunit": "^4.7.0"
     },
     "autoload": {
         "psr-4": {

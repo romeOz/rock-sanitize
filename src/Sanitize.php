@@ -45,7 +45,6 @@ use rock\sanitize\rules\UpperFirst;
  *
  * @method static Sanitize attributes($attributes)
  * @method static Sanitize recursive(bool $recursive = true)
- * @method static Sanitize labelRemainder(StringRule $label = '*')
  * @method static Sanitize rules(array $rules)
  *
  * @method static Sanitize abs()
@@ -90,18 +89,62 @@ class Sanitize implements ObjectInterface
     }
 
     /**
-     * Sanitize rules.
+     * List rules.
      * @var array
      */
-    public $rules = [];
-    public $recursive = true;
-    public $remainder = '*';
-    /** @var Rule[] */
+    protected $rules = [];
+    /**
+     * Enable recursive mode.
+     * @var bool
+     */
+    protected $recursive = true;
+    /**
+     * Label remainder.
+     * @var string
+     */
+    protected $remainder = '*';
+    /**
+     * List raw rules.
+     * @var Rule[]
+     */
     protected $rawRules = [];
 
     public function init()
     {
         $this->rules = array_merge($this->defaultRules(), $this->rules);
+    }
+
+    /**
+     * Sets a list rules.
+     * @param array $rules
+     * @return $this
+     */
+    public function setRules(array $rules)
+    {
+        $this->rules = array_merge($this->rules, $rules);
+        return $this;
+    }
+
+    /**
+     * Enable recursive mode.
+     * @param bool $enable
+     * @return $this
+     */
+    public function setRecursive($enable)
+    {
+        $this->recursive = $enable;
+        return $this;
+    }
+
+    /**
+     * Sets a label remainder.
+     * @param string $label
+     * @return $this
+     */
+    public function setRemainder($label)
+    {
+        $this->remainder = $label;
+        return $this;
     }
 
     /**
@@ -181,15 +224,9 @@ class Sanitize implements ObjectInterface
         return $this;
     }
 
-    protected function recursiveInternal($recursive = true)
+    protected function recursiveInternal($enable = true)
     {
-        $this->recursive = $recursive;
-        return $this;
-    }
-
-    protected function labelRemainderInternal($label = '*')
-    {
-        $this->remainder = $label;
+        $this->recursive = $enable;
         return $this;
     }
 

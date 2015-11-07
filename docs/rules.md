@@ -187,14 +187,12 @@ output:
 Change default label:
 
 ```php
-$sanitize = s::labelRemainder('_remainder')
-    ->attributes(
-        [
-            'name' => Sanitize::removeTags(),
-            'email' => Sanitize::removeScript(),
-            '_remainder' => Sanitize::positive(),
-        ]
-    );
+$sanitize = s::attributes([
+    'name' => Sanitize::removeTags(),
+    'email' => Sanitize::removeScript(),
+    '_remainder' => Sanitize::positive(),
+]);
+$sanitize->setRemainder('_remainder');
 ```
 
 ### Types

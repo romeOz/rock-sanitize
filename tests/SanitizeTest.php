@@ -127,13 +127,11 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $sanitize->sanitize($input));
 
         // custom label
-        $sanitize = Sanitize::labelRemainder('_rem')->attributes(
-            [
+        $sanitize = Sanitize::attributes([
                 'name' => Sanitize::removeTags(),
                 '_rem' => Sanitize::positive(),
                 'email' => Sanitize::removeScript(),
-            ]
-        );
+            ])->setRemainder('_rem');
         $this->assertSame($expected, $sanitize->sanitize($input));
     }
 
@@ -253,7 +251,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
         ];
-        $this->assertSame($expected, Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($input));
+        $this->assertSame($expected, Sanitize::attributes(Sanitize::removeTags())->setRecursive(false)->sanitize($input));
 
         $expected = [
             'name' => '<b>Tom</b>',
@@ -265,7 +263,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
         ];
-        $this->assertSame($expected, Sanitize::recursive(false)->attributes(['other' => Sanitize::removeTags()])->sanitize($input));
+        $this->assertSame($expected, Sanitize::attributes(['other' => Sanitize::removeTags()])->setRecursive(false)->sanitize($input));
     }
 
     public function testRecursiveAsObject()
@@ -295,7 +293,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
         // fail
         $object = new Recursive_1();
         $object->bar = new Recursive_2();
-        $s = Sanitize::recursive(false)->attributes(Sanitize::removeTags())->sanitize($object);
+        $s = Sanitize::attributes(Sanitize::removeTags())->setRecursive(false)->sanitize($object);
         $this->assertSame('text foo', $s->foo);
         $this->assertSame('text <b>baz</b>', $s->bar->baz);
     }
@@ -339,7 +337,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                         ],
                 ],
         ];
-        $this->assertEquals($expected, Sanitize::recursive(false)->attributes(['other' =>  Sanitize::removeTags()->trim()])->sanitize($input));
+        $this->assertEquals($expected, Sanitize::attributes(['other' =>  Sanitize::removeTags()->trim()])->setRecursive(false)->sanitize($input));
     }
 
     public function testChain()
@@ -430,7 +428,7 @@ class SanitizeTest extends \PHPUnit_Framework_TestCase
                         ],
                 ],
         ];
-        $this->assertEquals($expected, Sanitize::recursive(false)->attributes(['other.email' =>  Sanitize::removeTags(), 'other.note' =>  Sanitize::removeTags()])->sanitize($input));
+        $this->assertEquals($expected, Sanitize::attributes(['other.email' =>  Sanitize::removeTags(), 'other.note' =>  Sanitize::removeTags()])->setRecursive(false)->sanitize($input));
     }
 
     /**

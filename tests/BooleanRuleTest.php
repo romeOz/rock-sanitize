@@ -9,7 +9,7 @@ class BooleanRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function test_()
     {
-        $s = Sanitize::recursive(false)->bool();
+        $s = Sanitize::bool()->setRecursive(false);
         $this->assertTrue($s->sanitize(['foo']));
         $this->assertTrue($s->sanitize(1));
         $this->assertTrue($s->sanitize('1'));

@@ -12,7 +12,7 @@ class PositiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testSuccess($input)
     {
-        $s = Sanitize::recursive(false)->positive();
+        $s = Sanitize::positive()->setRecursive(false);
         $this->assertSame(0, $s->sanitize($input));
     }
 
@@ -21,7 +21,7 @@ class PositiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testFail($input, $expected)
     {
-        $s = Sanitize::recursive(false)->positive();
+        $s = Sanitize::positive()->setRecursive(false);
         $this->assertSame($expected, $s->sanitize($input));
     }
 

@@ -10,6 +10,7 @@ use rock\sanitize\rules\Abs;
 use rock\sanitize\rules\BasicTags;
 use rock\sanitize\rules\BooleanRule;
 use rock\sanitize\rules\Call;
+use rock\sanitize\rules\Ip;
 use rock\sanitize\rules\Decode;
 use rock\sanitize\rules\DefaultRule;
 use rock\sanitize\rules\Email;
@@ -51,6 +52,7 @@ use rock\sanitize\rules\UpperFirst;
  * @method static Sanitize basicTags(StringRule $allowedTags = '')
  * @method static Sanitize bool()
  * @method static Sanitize call(callable $call, array $args = null)
+ * @method static Sanitize ip(bool $normalize = true)
  * @method static Sanitize decode()
  * @method static Sanitize defaultValue(mixed $default = null)
  * @method static Sanitize email()
@@ -278,6 +280,7 @@ class Sanitize implements ObjectInterface
             'abs' => Abs::className(),
             'basicTags' => BasicTags::className(),
             'bool' => BooleanRule::className(),
+            'ip' => Ip::className(),
             'call' => Call::className(),
             'decode' => Decode::className(),
             'defaultValue' => DefaultRule::className(),

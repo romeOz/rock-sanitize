@@ -21,6 +21,7 @@ Rules
   * [s::decode()](#sdecode)
   * [s::email()](#semail)
   * [s::encode()](#sencode)
+  * [s::ip()](#sip)
   * [s::lowercase()](#slowercase)
   * [s::lowerFirst()](#slowerfirst)
   * [s::ltrimWords()](#sltrimwordswords)
@@ -291,11 +292,28 @@ s::email()->sanitize('<tom@site.com>');
 ```
 
 #### s::encode()
-#### s::encode($doubleEncode = true)
+#### s::encode(bool $doubleEncode = true)
 
 ```php
 s::encode()->sanitize('Tom & Jerry');
 // output: Tom &amp; Jerry
+```
+
+#### s::ip()
+#### s::ip(bool $normalize = true)
+
+Normalize IPv4/IPv6 and CIDR to range.
+
+```php
+s::ip()->sanitize('73.35.143.32/27');
+s::ip()->sanitize('73.35.143.32/255.255.255.224');
+// output: 73.35.143.32-73.35.143.63
+
+s::ip()->sanitize('192.*.*.*');
+// output: 192.0.0.0-192.255.255.255
+
+s::ip()->sanitize('2001:db8:abc:1400::/54');
+// output: 2001:db8:abc:1400::-2001:db8:abc:17ff:ffff:ffff:ffff:ffff
 ```
 
 #### s::lowercase()
